@@ -1,32 +1,78 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+        app
+        color="primary"
+        dark
+    >
+      <v-btn @click.stop="drawer = !drawer">
+        <v-icon>mdi-menu</v-icon>
+      </v-btn>
+
+      <v-spacer></v-spacer>
+      <v-btn>Auth</v-btn>
+
+    </v-app-bar>
+
+    <v-navigation-drawer
+        v-model="drawer"
+        app
+        dark
+        color="primary"
+        width="250"
+    >
+      <v-list dense>
+        <v-list-item v-for="link in links" :key="link.title" :to="link.to">
+          <v-list-item-icon>
+            <v-icon>{{ link.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ link.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
+<script>
+export default {
+  name: 'App',
+
+  data() {
+    return {
+      drawer: false,
+      links: [
+        {title: 'Organisations', icon: 'mdi-home', to: '/'},
+        {title: 'Org??', icon: 'mdi-information', to: '/about'},
+        {title: 'Ekip667', icon: 'mdi-information', to: '/about'},
+        {title: 'Ekip667??', icon: 'mdi-information', to: '/about'},
+      ]
+    }
+  }
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+.v-btn {
+  background: #fafafa;
+  color: black;
 }
 
-nav {
-  padding: 30px;
+.v-navigation-drawer {
+  background-color: #fafafa;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.v-list-item {
+  transition: background-color 0.3s;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.v-list-item:hover {
+  background-color: #e0e0e0;
 }
 </style>
