@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        org_secret: '',
+        orgSecret: '',
         heroesAliases: [],
         currentHero: {},
         teamList: [],
@@ -16,7 +16,7 @@ export default new Vuex.Store({
     getters: {},
     mutations: {
         setOrgSecret(state, secret) {
-            state.org_secret = secret;
+            state.orgSecret = secret;
         },
         setHeroesAliases(state, aliases) {
             state.heroesAliases = aliases;

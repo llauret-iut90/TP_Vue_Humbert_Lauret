@@ -11,7 +11,6 @@
 
       <v-spacer></v-spacer>
       <v-btn>Auth</v-btn>
-
     </v-app-bar>
 
     <v-navigation-drawer
@@ -48,10 +47,10 @@ export default {
     return {
       drawer: false,
       links: [
-        {title: 'Organisations', icon: 'mdi-home', to: '/'},
-        {title: 'Org??', icon: 'mdi-information', to: '/about'},
-        {title: 'Ekip667', icon: 'mdi-information', to: '/about'},
-        {title: 'Ekip667??', icon: 'mdi-information', to: '/about'},
+        {title: 'Organisations', icon: 'mdi-domain', to: '/orgList'},
+        {title: 'Current organisation', icon: 'mdi-domain', to: '/org'},
+        {title: 'Teams', icon: 'mdi-account-group', to: '/teamList'},
+        {title: 'Current team', icon: 'mdi-account-group', to: '/team'},
       ]
     }
   }
@@ -59,20 +58,4 @@ export default {
 </script>
 
 <style>
-.v-btn {
-  background: #fafafa;
-  color: black;
-}
-
-.v-navigation-drawer {
-  background-color: #fafafa;
-}
-
-.v-list-item {
-  transition: background-color 0.3s;
-}
-
-.v-list-item:hover {
-  background-color: #e0e0e0;
-}
 </style>
