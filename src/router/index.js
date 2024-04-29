@@ -15,7 +15,7 @@ const routes = [
         component: () => import('../views/OrgListView.vue'),
     },
     {
-        path: '/org',
+        path: '/org/:orgId',
         name: 'org',
         component: () => import('../views/OrgView.vue'),
     },

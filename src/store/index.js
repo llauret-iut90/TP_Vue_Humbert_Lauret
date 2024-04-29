@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import * as orgService from '@/service/org.service';
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -10,54 +12,29 @@ export default new Vuex.Store({
         currentHero: {},
         teamList: [],
         currentTeam: {},
-        orgNameList: [],
+        orgList: [],
         currentOrg: {},
     },
     getters: {},
     mutations: {
-        setOrgSecret(state, secret) {
-            state.orgSecret = secret;
+        setOrgList(state, orgList) {
+            state.orgList = orgList;
         },
-        setHeroesAliases(state, aliases) {
-            state.heroesAliases = aliases;
-        },
-        setCurrentHero(state, hero) {
-            state.currentHero = hero;
-        },
-        setTeamList(state, teamList) {
-            state.teamList = teamList;
-        },
-        setCurrentTeam(state, team) {
-            state.currentTeam = team;
-        },
-        setOrgNameList(state, orgNameList) {
-            state.orgNameList = orgNameList;
-        },
-        setCurrentOrg(state, org) {
-            state.currentOrg = org;
-        }
     },
     actions: {
-        setOrgSecret({commit}, secret) {
-            commit('setOrgSecret', secret);
+        async fetchOrgs({commit}) {
+            const res = await orgService.getOrganizations();
+            if (res.error === 0) {
+                commit('setOrgList', res.data);
+            }
+            return res;
         },
-        setHeroesAliases({commit}, aliases) {
-            commit('setHeroesAliases', aliases);
-        },
-        setCurrentHero({commit}, hero) {
-            commit('setCurrentHero', hero);
-        },
-        setTeamList({commit}, teamList) {
-            commit('setTeamList', teamList);
-        },
-        setCurrentTeam({commit}, team) {
-            commit('setCurrentTeam', team);
-        },
-        setOrgNameList({commit}, orgNameList) {
-            commit('setOrgNameList', orgNameList);
-        },
-        setCurrentOrg({commit}, org) {
-            commit('setCurrentOrg', org);
+        async createOrg({dispatch}, { name, secret }) {
+            const res = await orgService.createOrganization(name, secret);
+            if (res.error === 0) {
+                dispatch('fetchOrgs');
+            }
+            return res;
         }
     },
     modules: {}
