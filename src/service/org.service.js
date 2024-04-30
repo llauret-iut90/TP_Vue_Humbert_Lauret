@@ -1,6 +1,4 @@
-import {getRequest} from "@/service/axios.service";
-import {postRequest} from "@/service/axios.service";
-import {patchRequest} from "@/service/axios.service";
+import {getRequest, patchRequest, postRequest} from "@/service/axios.service";
 
 async function getOrganizations() {
     return await getRequest("/orgs/get", "getOrganizations");
@@ -28,7 +26,7 @@ async function removeTeam(id_Team, org_secret) {
 }
 
 async function getOrganizationById(_id, org_secret) {
-    return await getRequest(`/orgs/getbyid?_id=${_id}?org-secret=${org_secret}`, "getOrganizationById");
+    return await getRequest(`/orgs/getbyid/${_id}`, "getOrganizationById", {"Org-secret": org_secret});
 }
 
 export {

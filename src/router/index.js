@@ -15,7 +15,7 @@ const routes = [
         component: () => import('../views/OrgListView.vue'),
     },
     {
-        path: '/org/:orgId',
+        path: '/org',
         name: 'org',
         component: () => import('../views/OrgView.vue'),
     },
@@ -26,7 +26,7 @@ const routes = [
         // OrgView and TeamListView will render a same component
     },
     {
-        path: '/team',
+        path: '/team/:teamId',
         name: 'team',
         component: () => import('../views/TeamView.vue'),
     }

@@ -3,14 +3,11 @@ import {postRequest} from "@/service/axios.service";
 import {patchRequest} from "@/service/axios.service";
 
 async function getTeams() {
-    return await getRequest("/teams/get", "getTeams");
+    return await getRequest("teams/get", "getTeams");
 }
 
-async function createTeam(name) {
-    let data = {
-        name: name
-    }
-    return await postRequest("/teams/create", data, "createTeam");
+async function createTeam(body) {
+    return await postRequest("teams/create", body, "createTeam");
 }
 
 async function addHeroes(idHeroes, idTeam) {
@@ -18,7 +15,7 @@ async function addHeroes(idHeroes, idTeam) {
         idHeroes: idHeroes,
         idTeam: idTeam
     }
-    return await patchRequest(`/teams/addheroes`, data, "addHeroes");
+    return await patchRequest(`teams/addheroes`, data, "addHeroes");
 }
 
 async function removeHeroes(idHeroes, idTeam) {
@@ -26,8 +23,9 @@ async function removeHeroes(idHeroes, idTeam) {
         idHeroes: idHeroes,
         idTeam: idTeam
     }
-    return await patchRequest(`/teams/removeheroes`, data, "removeHeroes");
+    return await patchRequest(`teams/removeheroes`, data, "removeHeroes");
 }
+
 
 export {
     getTeams,

@@ -1,0 +1,5 @@
+GET https://apidemo.iut-bm.univ-fcomte.fr/herocorp/orgs/getbyid/6631560dfd9a75e6e0f4c7d3
+Accept: application/json
+org-secret: apzoeiruty
+
+// c'est pour loldzpdkzpdkpkzpdkpdkpzkdpzk (nom d'oganisation)

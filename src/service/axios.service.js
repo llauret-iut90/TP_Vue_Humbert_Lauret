@@ -24,7 +24,7 @@ Ces trois cas sont traités par une unique fonction handleError().
 
 // creation d'un agent axios, avec une config. pour atteindre l'API
 const axiosAgent = axios.create({
-    baseURL: 'https://apidemo.iut-bm.univ-fcomte.fr/herocorp'
+    baseURL: 'https://apidemo.iut-bm.univ-fcomte.fr/herocorp',
 });
 
 function handleError(serviceName, err) {
@@ -76,10 +76,11 @@ renvoyées par l'API, même en cas d'erreur.
   cela correspond donc à route demandée, par ex /rpg/items/get
 - name est un "surnom" de l'uri, pour les message de debug
  */
-async function getRequest(uri, name) {
+async function getRequest(uri, name, headers = {}) {
+    console.log("HEADER", headers)
     let response = null
     try {
-        response = await axiosAgent.get(uri)
+        response = await axiosAgent.get(uri, {headers})
     } catch (err) {
         // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
         // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs et on met le résutlat dans response.
