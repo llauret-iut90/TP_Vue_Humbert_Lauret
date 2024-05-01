@@ -25,9 +25,6 @@ export default {
   computed: {
     ...mapState(['currentOrg'])
   },
-  created() {
-    console.log('currentOrg', this.currentOrg);
-  },
   methods: {},
 };
 </script>

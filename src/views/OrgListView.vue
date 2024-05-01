@@ -1,7 +1,6 @@
 <template>
   <v-container style="max-height: 100vh; overflow-y: auto;">
-    <password-form :clicked="true"></password-form>
-    <div>
+    <v-container>
       <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
@@ -9,7 +8,7 @@
           single-line
           hide-details
       ></v-text-field>
-    </div>
+    </v-container>
     <v-row>
       <v-col>
         <v-card>
@@ -20,7 +19,7 @@
           </v-card-title>
           <v-card-text>
             <v-list>
-              <v-list-item v-for="org in this.filteredSearch" :key="org._id" @click="getOrgById(org._id)">
+              <v-list-item v-for="org in filteredSearch" :key="org._id" :to="'/org/' + org._id">
                 <v-list-item-content>
                   <v-list-item-title>{{ org.name }}</v-list-item-title>
                 </v-list-item-content>
@@ -48,80 +47,49 @@
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="snackbar">
-      {{ textSnackbar }}
-
-      <template v-slot:action="{ attrs }">
-        <v-btn
-            color="pink"
-            text
-            v-bind="attrs"
-            @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
-
+    <app-snackbar ref="snackbar"></app-snackbar>
   </v-container>
-  <!--  <AttributeList-->
-  <!--      :nom_attribut="'Organisations'"-->
-  <!--      :elementData="orgList"-->
-  <!--      :hasPassword="true"-->
-  <!--      @add-element="addOrg"-->
-  <!--  >-->
-  <!--  </AttributeList>-->
 </template>
 
 <script>
-import {mapActions, mapMutations, mapState} from 'vuex';
-import AttributeList from "@/components/attribute-list.vue";
-import PasswordForm from "@/components/password-form.vue";
+import {mapActions, mapState} from 'vuex';
+import AppSnackbar from "@/components/snackbar.vue";
 
 export default {
   name: 'OrgListView',
-  components: {PasswordForm, AttributeList},
+  components: {AppSnackbar},
   data() {
     return {
       search: '',
       dialog: false,
       name: '',
       password: '',
-      snackbar: false,
-      textSnackbar: '',
     };
   },
   computed: {
-    ...mapState(['orgList', 'orgSecret']),
-    filteredSearch() {
-      return this.orgList.filter(org => org.name.toLowerCase().includes(this.search.toLowerCase()));
-    }
+    ...mapState({
+      filteredSearch: function (state) {
+        return state.org.orgList.filter(org => org.name.toLowerCase().includes(this.search.toLowerCase()));
+      },
+    }),
   },
   methods: {
-    ...mapActions(['fetchOrgs', 'createOrg', 'fetchOrgById']),
-    ...mapMutations(['setOrgSecret', 'setCurrentOrg']),
-    async getOrgById(orgId) {
-      await this.fetchOrgById(orgId);
-      await this.$router.push({name: 'org', params: {orgId}});
-    },
+    ...mapActions(['fetchOrgs', 'createOrg']),
     async addOrg() {
       const res = await this.createOrg({name: this.name, secret: this.password});
       this.dialog = false;
-      this.snackbar = true;
+
       if (res.error !== 0) {
-        this.textSnackbar = res.data.data;
+        this.$refs.snackbar.show(res.data.data);
       } else {
-        this.textSnackbar = 'Succès pour la création de l\'organisation'
-        this.setOrgSecret(this.password)
+        this.$refs.snackbar.show('Success for org creation');
       }
     }
   },
   async created() {
     const res = await this.fetchOrgs();
-    console.log(res);
     if (res.error !== 0) {
-      this.snackbar = true;
-      this.textSnackbar = res.data.data;
+      this.$refs.snackbar.show(res.data.data);
     }
   },
 }

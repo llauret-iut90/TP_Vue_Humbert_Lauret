@@ -10,7 +10,7 @@
       </v-btn>
 
       <v-spacer></v-spacer>
-      <v-btn>Auth</v-btn>
+      <v-btn to="/auth">Auth</v-btn>
     </v-app-bar>
 
     <v-navigation-drawer

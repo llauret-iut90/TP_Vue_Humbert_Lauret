@@ -1,15 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-
 import * as teamService from '@/service/team.service';
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-    state: {
+export default {
+    state: () => ({
         teamList: [],
         currentTeam: {},
-    },
+    }),
     getters: {},
     mutations: {
         setTeamList(state, teamList) {
@@ -24,14 +19,12 @@ export default new Vuex.Store({
             }
             return res;
         },
-
-        async createTeam({dispatch}, body) {
-            const res = await teamService.createTeam(body);
+        async createTeam({dispatch}, name) {
+            const res = await teamService.createTeam({name: name});
             if (res.error === 0) {
                 dispatch('fetchTeams');
             }
             return res;
         }
     },
-    modules: {}
-})
+}
