@@ -19,7 +19,7 @@
           </v-card-title>
           <v-card-text>
             <v-list>
-              <v-list-item v-for="org in filteredSearch" :key="org._id" :to="'/org/' + org._id">
+              <v-list-item v-for="org in filteredSearch" :key="org._id" @click="changeCurrentOrg(org._id)">
                 <v-list-item-content>
                   <v-list-item-title>{{ org.name }}</v-list-item-title>
                 </v-list-item-content>
@@ -33,7 +33,7 @@
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-title>
-          Ajouter une organisation
+          Add an organisation
         </v-card-title>
         <v-card-text>
           <v-text-field label="Name" v-model="name" required></v-text-field>
@@ -41,8 +41,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="dialog = false">Fermer</v-btn>
-          <v-btn color="blue darken-1" text @click="addOrg()">Ajouter</v-btn>
+          <v-btn text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="addOrg()">Add</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -74,7 +74,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['fetchOrgs', 'createOrg']),
+    ...mapActions(['fetchOrgs', 'createOrg', 'fetchOrgById']),
     async addOrg() {
       const res = await this.createOrg({name: this.name, secret: this.password});
       this.dialog = false;
@@ -84,7 +84,11 @@ export default {
       } else {
         this.$refs.snackbar.show('Success for org creation');
       }
-    }
+    },
+    async changeCurrentOrg(orgId) {
+      await this.fetchOrgById(orgId);
+      await this.$router.push({path: '/org'});
+    },
   },
   async created() {
     const res = await this.fetchOrgs();

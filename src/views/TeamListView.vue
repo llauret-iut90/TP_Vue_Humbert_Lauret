@@ -19,7 +19,7 @@
           </v-card-title>
           <v-card-text>
             <v-list>
-              <v-list-item v-for="team in filteredSearch" :key="team._id" :to="'/team/' + team._id">
+              <v-list-item v-for="team in filteredSearch" :key="team._id" @click="changeCurrentTeam(team._id)">
                 <v-list-item-content>
                   <v-list-item-title>{{ team.name }}</v-list-item-title>
                 </v-list-item-content>
@@ -33,7 +33,7 @@
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-title>
-          Ajouter une équipe
+          Add a team
         </v-card-title>
         <v-card-text>
           <v-text-field label="Name" v-model="name" required></v-text-field>
@@ -41,7 +41,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="addTeam()">Ajouter</v-btn>
+          <v-btn color="blue darken-1" text @click="addTeam()">Add</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -73,7 +73,7 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(['fetchTeams', 'createTeam']),
+    ...mapActions(['fetchTeams', 'createTeam', 'setCurrentTeamFromId']),
     async addTeam() {
       const res = await this.createTeam(this.name);
       this.dialog = false;
@@ -83,7 +83,11 @@ export default {
       } else {
         this.$refs.snackbar.show('Success for team creation');
       }
-    }
+    },
+    async changeCurrentTeam(teamId) {
+      await this.setCurrentTeamFromId(teamId);
+      await this.$router.push({path: '/team'});
+    },
   },
   async created() {
     const res = await this.fetchTeams();

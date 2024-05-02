@@ -9,7 +9,10 @@ export default {
     mutations: {
         setTeamList(state, teamList) {
             state.teamList = teamList;
-        }
+        },
+        setCurrentTeam(state, team) {
+            state.currentTeam = team;
+        },
     },
     actions: {
         async fetchTeams({commit}) {
@@ -25,6 +28,10 @@ export default {
                 dispatch('fetchTeams');
             }
             return res;
-        }
+        },
+        setCurrentTeamFromId({state, commit}, teamId) {
+            const team = state.teamList.find(team => team._id === teamId);
+            commit('setCurrentTeam', team);
+        },
     },
 }
