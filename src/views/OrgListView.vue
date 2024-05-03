@@ -15,7 +15,7 @@
           <v-card-title>
             Organisations
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="dialog = true">Add</v-btn>
+            <v-btn color="primary" @click="$refs.addDialog.show()">Add</v-btn>
           </v-card-title>
           <v-card-text>
             <v-list>
@@ -30,22 +30,11 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="dialog" max-width="500px">
-      <v-card>
-        <v-card-title>
-          Add an organisation
-        </v-card-title>
-        <v-card-text>
-          <v-text-field label="Name" v-model="name" required></v-text-field>
-          <v-text-field label="Password" v-model="password" type="password" required></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="addOrg()">Add</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <add-dialog
+        title="Add an organization"
+        @add-event="addOrg"
+        ref="addDialog"
+    ></add-dialog>
 
     <app-snackbar ref="snackbar"></app-snackbar>
   </v-container>
@@ -54,16 +43,15 @@
 <script>
 import {mapActions, mapState} from 'vuex';
 import AppSnackbar from "@/components/snackbar.vue";
+import AddDialog from "@/components/add-dialog.vue";
 
 export default {
   name: 'OrgListView',
-  components: {AppSnackbar},
+  components: {AddDialog, AppSnackbar},
   data() {
     return {
       search: '',
       dialog: false,
-      name: '',
-      password: '',
     };
   },
   computed: {
@@ -75,19 +63,28 @@ export default {
   },
   methods: {
     ...mapActions(['fetchOrgs', 'createOrg', 'fetchOrgById']),
-    async addOrg() {
-      const res = await this.createOrg({name: this.name, secret: this.password});
+    /*
+    * L'évenement émis par le composant AddDialog add-event envoie name et password
+    * {name: this.name, secret: this.password});
+    * ça envoie un payload qui est attribué à la méthode addOrg
+    *         @add-event="addOrg"
+    * Obligé d'émit parce que les props sont en read only
+     */
+    async addOrg({name, secret}) {
+      const res = await this.createOrg({name, secret});
       this.dialog = false;
 
       if (res.error !== 0) {
         this.$refs.snackbar.show(res.data.data);
       } else {
         this.$refs.snackbar.show('Success for org creation');
+        this.$refs.addDialog.dialog = false;
       }
     },
-    async changeCurrentOrg(orgId) {
-      await this.fetchOrgById(orgId);
-      await this.$router.push({path: '/org'});
+    changeCurrentOrg(orgId) {
+      this.fetchOrgById(orgId).then(() => {
+        this.$router.push('/org');
+      });
     },
   },
   async created() {

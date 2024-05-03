@@ -26,7 +26,7 @@ async function removeTeam(id_Team, org_secret) {
 }
 
 async function getOrganizationById(_id, org_secret) {
-    return await getRequest(`/orgs/getbyid/${_id}`, "getOrganizationById", {"Org-secret": org_secret});
+    return await getRequest(`/orgs/getbyid/${_id}`, "getOrganizationById", {"org-secret": org_secret});
 }
 
 export {

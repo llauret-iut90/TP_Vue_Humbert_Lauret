@@ -3,11 +3,11 @@
     <v-card>
       <v-card-title class="headline">
         <v-icon left>mdi-office-building</v-icon>
-        Organisation : {{ currentOrg }}
+        Organisation : {{ currentOrg.name }}
       </v-card-title>
       <v-card-subtitle>
         <v-chip color="red" text-color="white">
-          ID: {{ currentOrg?._id }}
+          ID: {{ currentOrg._id }}
         </v-chip>
       </v-card-subtitle>
     </v-card>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapGetters} from "vuex";
 import ErrorDialog from "@/components/error-dialog.vue";
 
 export default {
@@ -31,11 +31,13 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(['currentOrg']),
+    // un getter sinon ce petit con est undefined
+    ...mapGetters(['currentOrg']),
   },
   methods: {},
   mounted() {
     if (!this.currentOrg || Object.keys(this.currentOrg).length === 0) {
+      console.log('No org found');
       this.$refs.errorDialog.show();
     }
   },

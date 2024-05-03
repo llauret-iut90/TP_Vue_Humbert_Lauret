@@ -6,7 +6,10 @@ export default {
         orgList: [],
         currentOrg: {},
     }),
-    getters: {},
+    getters: {
+        orgList: state => state.orgList,
+        currentOrg: state => state.currentOrg,
+    },
     mutations: {
         setOrgSecret(state, secret) {
             state.orgSecret = secret;
