@@ -46,5 +46,12 @@ export default {
             }
             return res;
         },
+        async removeTeam({dispatch, state}, teamId) {
+            const res = await orgService.removeTeam(teamId, state.orgSecret);
+            if (res.error === 0) {
+                dispatch('fetchOrgById', state.currentOrg._id);
+            }
+            return res;
+        },
     },
 }

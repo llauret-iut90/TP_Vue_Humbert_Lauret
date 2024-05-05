@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'ErrorDialog',
+  name: 'AlertDialog',
   props: {
     title: {
       type: String,
