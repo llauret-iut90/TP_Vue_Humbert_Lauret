@@ -1,9 +1,15 @@
 <template>
   <v-container>
     <v-card>
-      <v-card-title>
-        {{ currentOrg.name }}
+      <v-card-title class="headline">
+        <v-icon left>mdi-office-building</v-icon>
+        Organisation : {{ currentOrg.name }}
       </v-card-title>
+      <v-card-subtitle>
+        <v-chip color="red" text-color="white">
+          ID: {{ currentOrg._id }}
+        </v-chip>
+      </v-card-subtitle>
       <v-card-text>
         <v-list>
           <v-list-item v-for="team in currentOrg.teams" :key="team._id"
