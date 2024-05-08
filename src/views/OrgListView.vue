@@ -43,7 +43,7 @@
 <script>
 import {mapActions, mapState} from 'vuex';
 import AppSnackbar from "@/components/snackbar.vue";
-import AddDialog from "@/components/add-dialog.vue";
+import AddDialog from "@/components/add-org-dialog.vue";
 
 export default {
   name: 'OrgListView',
