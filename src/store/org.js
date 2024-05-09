@@ -53,5 +53,12 @@ export default {
             }
             return res;
         },
+        async addTeam({dispatch, state}, teamId) {
+            const res = await orgService.addTeam(teamId, state.orgSecret);
+            if (res.error === 0) {
+                dispatch('fetchOrgById', state.currentOrg._id);
+            }
+            return res;
+        },
     },
 }

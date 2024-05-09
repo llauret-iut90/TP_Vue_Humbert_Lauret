@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'TeamView',
@@ -13,7 +13,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(['currentTeam'])
+    ...mapGetters(['currentTeam'])
   },
   methods: {},
 };

@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'AddDialog',
+  name: 'AddOrgDialog',
   data() {
     return {
       dialog: false,

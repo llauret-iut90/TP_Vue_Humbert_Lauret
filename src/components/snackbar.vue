@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar :value="snackbar">
+  <v-snackbar :value="snackbar" @input="snackbar = false">
     {{ textSnackbar }}
 
     <template v-slot:action="{ attrs }">

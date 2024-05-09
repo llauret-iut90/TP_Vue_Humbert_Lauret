@@ -5,7 +5,10 @@ export default {
         teamList: [],
         currentTeam: {},
     }),
-    getters: {},
+    getters: {
+        teamList: state => state.teamList,
+        currentTeam: state => state.currentTeam,
+    },
     mutations: {
         setTeamList(state, teamList) {
             state.teamList = teamList;

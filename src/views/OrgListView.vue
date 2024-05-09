@@ -30,11 +30,11 @@
       </v-col>
     </v-row>
 
-    <add-dialog
+    <add-org-dialog
         title="Add an organization"
         @add-event="addOrg"
         ref="addDialog"
-    ></add-dialog>
+    ></add-org-dialog>
 
     <app-snackbar ref="snackbar"></app-snackbar>
   </v-container>
@@ -43,11 +43,11 @@
 <script>
 import {mapActions, mapState} from 'vuex';
 import AppSnackbar from "@/components/snackbar.vue";
-import AddDialog from "@/components/add-org-dialog.vue";
+import AddOrgDialog from "@/components/add-org-dialog.vue";
 
 export default {
   name: 'OrgListView',
-  components: {AddDialog, AppSnackbar},
+  components: {AddOrgDialog, AppSnackbar},
   data() {
     return {
       search: '',
