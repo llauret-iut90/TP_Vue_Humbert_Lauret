@@ -1,0 +1,7 @@
+PATCH https://apidemo.iut-bm.univ-fcomte.fr/herocorp/orgs/addteam
+content-type: application/json
+org-secret: 0000
+
+{
+  "idTeam": "66561ccb069cfbf448c09502"
+}

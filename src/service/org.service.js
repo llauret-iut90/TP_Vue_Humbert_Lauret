@@ -13,9 +13,11 @@ async function createOrganization(name, secret) {
 
 async function addTeam(id_Team, org_secret) {
     let data = {
-        id_Team: id_Team
+        idTeam: id_Team
     }
-    return await patchRequest(`/orgs/addteam?org-secret=${org_secret}`, data, "addTeam");
+    console.log("DATA", data)
+    console.log("ORG SECRET", org_secret)
+    return await patchRequest(`/orgs/addteam`, data, "addTeam", {"org-secret": org_secret});
 }
 
 async function removeTeam(id_Team, org_secret) {

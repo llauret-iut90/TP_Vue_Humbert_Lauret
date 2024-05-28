@@ -36,5 +36,21 @@ export default {
             const team = state.teamList.find(team => team._id === teamId);
             commit('setCurrentTeam', team);
         },
+        async addHeroToTeam({dispatch, state}, heroId) {
+            const res = await teamService.addHeroes(heroId, state.currentTeam._id);
+            if (res.error === 0) {
+                dispatch('fetchTeams');
+            }
+            console.log("currentTeam", state.currentTeam._id)
+            console.log("j'ajoute un hero dans l'équipe", res);
+            return res;
+        },
+        async removeHeroFromTeam({dispatch, state}, heroId) {
+            const res = await teamService.removeHeroes(heroId, state.currentTeam._id);
+            if (res.error === 0) {
+                dispatch('fetchTeams');
+            }
+            return res;
+        }
     },
 }

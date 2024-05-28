@@ -33,6 +33,7 @@ export default {
     changeSecret() {
       this.setOrgSecret(this.password);
       this.$refs.snackbar.show('Password set');
+      this.$router.push('/orgList');
     },
   },
 };

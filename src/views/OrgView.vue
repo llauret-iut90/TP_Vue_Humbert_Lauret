@@ -5,7 +5,7 @@
         <v-icon left>mdi-office-building</v-icon>
         Organisation : {{ currentOrg.name }}
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="$refs.addTeamDialog.show()">Add</v-btn>
+        <v-btn color="primary" @click="$refs.addTeamDialog.show();">Add</v-btn>
       </v-card-title>
       <v-card-subtitle>
         <v-chip color="red" text-color="white">

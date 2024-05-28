@@ -54,6 +54,7 @@ export default {
     },
     async addTeamToOrg() {
       const res = await this.addTeam(this.selectedTeam);
+      console.log("JE SUIS LA TEAM", this.selectedTeam);
       if (res.error !== 0) {
         this.$refs.snackbar.show(res.data.data);
       }

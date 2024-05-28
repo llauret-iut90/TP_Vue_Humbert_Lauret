@@ -1,0 +1,14 @@
+POST https://apidemo.iut-bm.univ-fcomte.fr/herocorp/heroes/create/
+content-type: application/json
+
+{
+  "publicName": "Bruce Wayne",
+  "realName": "Batman",
+  "power": [
+    {
+      "name": "Rich",
+      "type": "Money",
+      "level": 100
+    }
+  ]
+}

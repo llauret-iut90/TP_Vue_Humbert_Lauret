@@ -108,16 +108,17 @@ async function postRequest(uri, data, name) {
     return response.data;
 }
 
-async function patchRequest(uri, data, name) {
+async function patchRequest(uri, data, name, headers = {}) {
     let response = null
     try {
-        response = await axiosAgent.patch(uri, data)
+        response = await axiosAgent.patch(uri, data, {headers})
     } catch (err) {
         // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
         // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs
         response = handleError(name, err);
     }
     // on retourne les données dans response, qu'il y ait eu une erreur ou pas.
+    console.log("PATCH", response.data)
     return response.data;
 }
 
