@@ -32,9 +32,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['heroesAliases']),
+    ...mapGetters(['heroesAliases', 'currentTeam', 'currentOrg']),
     heroes() {
-      return this.heroesAliases.map(hero => hero.publicName);
+      // Trouver l'équipe actuelle dans currentOrg
+      const currentTeam = this.currentOrg.teams.find(team => team._id === this.currentTeam._id);
+      if (!currentTeam) {return this.heroesAliases.map(hero => hero.publicName);}
+      // Obtenir les IDs des membres de l'équipe actuelle
+      const currentTeamMemberIds = currentTeam.members;
+      // Filtrer heroesAliases pour exclure les membres de l'équipe actuelle
+      return this.heroesAliases
+          .filter(hero => !currentTeamMemberIds.includes(hero._id))
+          .map(hero => hero.publicName);
     }
   },
   methods: {
