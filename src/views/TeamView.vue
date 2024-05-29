@@ -3,7 +3,10 @@
     <v-card>
       <v-card-title class="justify-lg-space-between">
         {{ currentTeam.name }}
-        <v-btn color="blue darken-1" @click="$refs.addHeroDialog.show()">Add Member</v-btn>
+        <div>
+          <v-btn color="blue darken-1" @click="$refs.addHeroDialog.show()">Create Member</v-btn>
+          <v-btn color="green darken-1" @click="$refs.addExistingHeroDialog.show()">Add existing hero</v-btn>
+        </div>
       </v-card-title>
       <v-card-text>
         Number of Affiliations: <span style="color: blue">{{ currentTeam.nbAffiliations }}</span>
@@ -31,28 +34,33 @@
     </v-card>
 
     <add-hero-dialog ref="addHeroDialog" @add-hero="addHero"></add-hero-dialog>
+    <add-existing-hero-dialog ref="addExistingHeroDialog"
+                              @add-existing-hero="addExistingHero"></add-existing-hero-dialog>
   </v-container>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
 import AddHeroDialog from "@/components/add-hero-dialog.vue";
+import AddExistingHeroDialog from "@/components/add-existing-hero-dialog.vue";
 
 export default {
   name: 'TeamView',
   components: {
-    AddHeroDialog
+    AddHeroDialog,
+    AddExistingHeroDialog
   },
   data() {
     return {
-      heroesAliases: [],
       teamMembers: [],
     };
   },
   computed: {
-    ...mapGetters(['currentTeam', 'teamList', 'currentOrg'])
+    ...mapGetters(['currentTeam', 'teamList', 'currentOrg', 'heroesAliases'])
   },
   async created() {
+    //Pour remplir le heroesAliases
+    await this.fetchHeroes();
     await this.fetchTeamMembers();
   },
   methods: {
@@ -102,6 +110,18 @@ export default {
         }
       } catch (error) {
         console.error(`Error fetching team members: ${error}`);
+      }
+    },
+    async addExistingHero(selectedHero) {
+      console.log('selectedHero', selectedHero);
+      console.log('Add existing hero');
+      // Recherche du héros dans heroesAliases en fonction du nom
+      console.log('Heroes aliases', this.heroesAliases);
+      const hero = this.heroesAliases.find(h => h.publicName === selectedHero);
+      console.log('Hero found', hero);
+      if (hero) {
+        await this.addHeroToTeam(hero._id);
+        await this.fetchTeamMembers();
       }
     },
     editMember(member) {

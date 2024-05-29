@@ -5,7 +5,9 @@ export default {
         heroesAliases: [],
         currentHero: {},
     }),
-    getters: {},
+    getters: {
+        heroesAliases: state => state.heroesAliases,
+    },
     mutations: {
         setHeroesAliases(state, heroes) {
             state.heroesAliases = heroes;
