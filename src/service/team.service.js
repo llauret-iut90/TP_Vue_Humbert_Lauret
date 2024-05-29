@@ -12,10 +12,11 @@ async function createTeam(body) {
 
 async function addHeroes(idHeroes, idTeam) {
     let data = {
-        idHeroes: idHeroes,
+        idHeroes: [idHeroes],
         idTeam: idTeam
     }
-    return await patchRequest(`teams/addheroes`, data, "addHeroes");
+    console.log("DATA de add heroes", data)
+    return await patchRequest(`teams/addheroes`, data, "addHeroes", {});
 }
 
 async function removeHeroes(idHeroes, idTeam) {

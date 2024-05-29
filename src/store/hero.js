@@ -22,8 +22,11 @@ export default {
             }
             return res;
         },
-        async fetchHeroById({commit}, _id) {
-            const res = await heroService.getHeroById(_id);
+        async fetchHeroById({commit, rootState}, _id) {
+            //rootState c'est pour accéder aux autres states d'autres store
+            const orgSecret = rootState.org.orgSecret;
+            console.log("orgSecret", orgSecret)
+            const res = await heroService.getHeroById(_id, orgSecret);
             if (res.error === 0) {
                 commit('setCurrentHero', res.data[0]);
             }

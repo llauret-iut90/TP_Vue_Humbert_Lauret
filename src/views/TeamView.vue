@@ -12,11 +12,17 @@
 
     <v-card v-for="member in teamMembers" :key="member._id">
       <v-card-title>
-        {{ member.publicName }}
+        {{ member[0].publicName }}
       </v-card-title>
       <v-card-text>
-        Real Name: {{ member.realName }}
-        Powers: {{ member.powers.join(', ') }}
+        Real Name: {{ member[0].realName }}
+        <div v-if="member[0].powers.length > 0">
+          Power name: {{ member[0].powers[0].name }}
+          <br>
+          Power level: {{ member[0].powers[0].level }}
+          <br>
+          Power type: {{ member[0].powers[0].type }}
+        </div>
       </v-card-text>
       <v-card-actions>
         <v-btn color="blue darken-1" @click="editMember(member)">Edit</v-btn>
@@ -41,31 +47,62 @@ export default {
     return {
       heroesAliases: [],
       teamMembers: [],
-      publicName: '',
-      realName: '',
-      powers: []
     };
   },
   computed: {
     ...mapGetters(['currentTeam', 'teamList', 'currentOrg'])
   },
+  async created() {
+    await this.fetchTeamMembers();
+  },
   methods: {
-    ...mapActions(['createHero', 'addHeroToTeam', 'fetchHeroes', 'fetchOrgById', 'removeHeroFromTeam', 'editHero']),
+    ...mapActions(['createHero', 'addHeroToTeam', 'fetchHeroes', 'fetchOrgById', 'removeHeroFromTeam', 'editHero', 'fetchHeroById']),
+
     async addHero(heroData) {
-      const res = await this.createHero(heroData);
+      const {publicName, realName, power} = heroData;
+      const hero = {
+        publicName,
+        realName,
+        power: power
+      };
+      const res = await this.createHero(hero);
       if (res.error === 0) {
         console.log('Hero created', res.data);
         await this.addHeroToTeam(res.data._id);
-        this.teamMembers.push(res.data);
       }
     },
     async fetchTeamMembers() {
-      console.log('Fetching team members');
-      const res = await this.fetchOrgById(this.currentOrg._id);
-      if (res.error === 0 && res.data[0].teams && res.data[0].teams.length > 0) {
-        this.teamMembers = res.data[0].teams.find(t => t._id === this.currentTeam._id).members;
+      try {
+        console.log('Fetching team members');
+        if (this.currentOrg._id !== undefined) {
+          const res = await this.fetchOrgById(this.currentOrg._id);
+          if (res.data.length > 0) {
+            const teams = res.data[0].teams;
+            // Trouver l'équipe actuelle
+            const currentTeam = teams.find(team => team.name === this.currentTeam.name);
+            console.log('Current team', currentTeam);
+            if (currentTeam) {
+              // Utiliser les identifiants des membres de l'équipe actuelle
+              const memberIds = currentTeam.members;
+              console.log('Member IDs of current team', memberIds);
+              for (let i = 0; i < memberIds.length; i++) {
+                try {
+                  const res = await this.fetchHeroById(memberIds[i]);
+                  console.log('Hero fetched', res.data);
+                  this.teamMembers.push(res.data);
+                  console.log('Team members', this.teamMembers);
+                } catch (error) {
+                  console.error(`Error fetching hero with id ${memberIds[i]}: ${error}`);
+                }
+              }
+            } else {
+              console.log('No team members');
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`Error fetching team members: ${error}`);
       }
-      console.log('Team members', this.teamMembers);
     },
     editMember(member) {
       console.log('Edit member', member);
@@ -77,8 +114,5 @@ export default {
       }
     }
   },
-  created() {
-    this.fetchTeamMembers();
-  }
 };
 </script>

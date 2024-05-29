@@ -1,0 +1,9 @@
+PATCH https://apidemo.iut-bm.univ-fcomte.fr/herocorp/teams/addheroes
+content-type: application/json
+
+{
+  "idHeroes": [
+    ""
+  ],
+  "idTeam": "66561ccb069cfbf448c09502"
+}

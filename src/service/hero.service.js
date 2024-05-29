@@ -21,7 +21,7 @@ async function updateHero(org_secret, _id, publicName, realName, powers) {
 }
 
 async function getHeroById(_id, org_secret) {
-    return await getRequest(`/heroes/getbyid?_id=${_id}?org-secret=${org_secret}`, "getHeroById");
+    return await getRequest(`/heroes/getbyid/${_id}`, "getHeroById", {"org-secret": org_secret});
 }
 
 export {
