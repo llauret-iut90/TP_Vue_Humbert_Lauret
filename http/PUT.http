@@ -1,0 +1,16 @@
+PUT https://apidemo.iut-bm.univ-fcomte.fr/herocorp/heroes/update
+content-type: application/json
+org-secret: 0000
+
+{
+  "_id": "6658d7f8069cfbf448c0adfd",
+  "publicName": "pp",
+  "realName": "pp",
+  "powers": [
+    {
+      "name": "pp",
+      "type": "pp",
+      "level": "1"
+    }
+  ]
+}

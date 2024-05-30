@@ -21,10 +21,11 @@ async function addHeroes(idHeroes, idTeam) {
 
 async function removeHeroes(idHeroes, idTeam) {
     let data = {
-        idHeroes: idHeroes,
+        idHeroes: [idHeroes],
         idTeam: idTeam
     }
-    return await patchRequest(`teams/removeheroes`, data, "removeHeroes");
+    console.log("j'enlève un hero de l'équipe", data)
+    return await patchRequest(`teams/removeheroes`, data, "removeHeroes", {});
 }
 
 

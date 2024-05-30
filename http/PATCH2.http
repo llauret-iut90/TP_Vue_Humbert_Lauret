@@ -1,9 +1,9 @@
-PATCH https://apidemo.iut-bm.univ-fcomte.fr/herocorp/teams/addheroes
+PATCH https://apidemo.iut-bm.univ-fcomte.fr/herocorp/teams/removeheroes
 content-type: application/json
 
 {
   "idHeroes": [
-    ""
+    "6658d10a069cfbf448c0aba0"
   ],
   "idTeam": "66561ccb069cfbf448c09502"
 }

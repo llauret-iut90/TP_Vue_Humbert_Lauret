@@ -13,11 +13,11 @@ async function createHero(publicName, realName, powers) {
     return await postRequest("/heroes/create", data, "createHero");
 }
 
-async function updateHero(org_secret, _id, publicName, realName, powers) {
+async function updateHero(_id, publicName, realName, powers, org_secret) {
     let data = {
         _id: _id, publicName: publicName, realName: realName, powers: powers,
     }
-    return await putRequest(`/heroes/update?org-secret=${org_secret}`, data, "updateHero");
+    return await putRequest(`/heroes/update`, data, "updateHero", {"org-secret": org_secret});
 }
 
 async function getHeroById(_id, org_secret) {

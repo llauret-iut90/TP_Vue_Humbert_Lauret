@@ -122,10 +122,10 @@ async function patchRequest(uri, data, name, headers = {}) {
     return response.data;
 }
 
-async function putRequest(uri, data, name) {
+async function putRequest(uri, data, name, headers = {}) {
     let response = null
     try {
-        response = await axiosAgent.put(uri, data)
+        response = await axiosAgent.put(uri, data, {headers})
     } catch (err) {
         // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
         // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs

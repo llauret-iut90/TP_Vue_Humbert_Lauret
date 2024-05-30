@@ -2,8 +2,8 @@ POST https://apidemo.iut-bm.univ-fcomte.fr/herocorp/heroes/create/
 content-type: application/json
 
 {
-  "publicName": "sss sss",
-  "realName": "sssss",
+  "publicName": "pipi sss",
+  "realName": "opopo",
   "power": [
     {
       "name": "ssss",

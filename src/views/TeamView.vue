@@ -1,6 +1,6 @@
 <template>
   <v-container v-if="currentTeam.name">
-    <v-card>
+    <v-card class="ma-lg-5">
       <v-card-title class="justify-lg-space-between">
         {{ currentTeam.name }}
         <div>
@@ -13,29 +13,34 @@
       </v-card-text>
     </v-card>
 
-    <v-card v-for="member in teamMembers" :key="member._id">
-      <v-card-title>
-        {{ member[0].publicName }}
-      </v-card-title>
-      <v-card-text>
-        Real Name: {{ member[0].realName }}
-        <div v-if="member[0].powers.length > 0">
-          Power name: {{ member[0].powers[0].name }}
-          <br>
-          Power level: {{ member[0].powers[0].level }}
-          <br>
-          Power type: {{ member[0].powers[0].type }}
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="blue darken-1" @click="editMember(member)">Edit</v-btn>
-        <v-btn color="red darken-1" @click="removeMemberFromTeam(member)">Remove from Team</v-btn>
-      </v-card-actions>
-    </v-card>
+    <v-row>
+      <v-col cols="4" v-for="member in teamMembers" :key="member._id">
+        <v-card>
+          <v-card-title>
+            {{ member[0].publicName }}
+          </v-card-title>
+          <v-card-text>
+            Real Name: {{ member[0].realName }}
+            <div v-if="member[0].powers.length > 0">
+              Power name: {{ member[0].powers[0].name }}
+              <br>
+              Power level: {{ member[0].powers[0].level }}
+              <br>
+              Power type: {{ member[0].powers[0].type }}
+            </div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="blue darken-1" @click="$refs.editHeroDialog.show(member)">Edit</v-btn>
+            <v-btn color="red darken-1" @click="removeMemberFromTeam(member)">Remove from Team</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
 
     <add-hero-dialog ref="addHeroDialog" @add-hero="addHero"></add-hero-dialog>
     <add-existing-hero-dialog ref="addExistingHeroDialog"
                               @add-existing-hero="addExistingHero"></add-existing-hero-dialog>
+    <edit-hero-dialog ref="editHeroDialog" @edit-hero="editMember"></edit-hero-dialog>
   </v-container>
 </template>
 
@@ -43,10 +48,12 @@
 import {mapActions, mapGetters} from "vuex";
 import AddHeroDialog from "@/components/add-hero-dialog.vue";
 import AddExistingHeroDialog from "@/components/add-existing-hero-dialog.vue";
+import EditHeroDialog from "@/components/edit-team-member-dialog.vue";
 
 export default {
   name: 'TeamView',
   components: {
+    EditHeroDialog,
     AddHeroDialog,
     AddExistingHeroDialog
   },
@@ -60,6 +67,7 @@ export default {
   },
   async created() {
     //Pour remplir le heroesAliases
+    console.log('teammembers', this.teamMembers);
     await this.fetchHeroes();
     await this.fetchTeamMembers();
   },
@@ -82,6 +90,7 @@ export default {
     async fetchTeamMembers() {
       try {
         console.log('Fetching team members');
+        this.teamMembers = [];
         if (this.currentOrg._id !== undefined) {
           const res = await this.fetchOrgById(this.currentOrg._id);
           if (res.data.length > 0) {
@@ -124,13 +133,29 @@ export default {
         await this.fetchTeamMembers();
       }
     },
-    editMember(member) {
+    async editMember(member) {
       console.log('Edit member', member);
+      const {publicName, realName, power} = member;
+      const hero = {
+        publicName,
+        realName,
+        powers: power
+      };
+      console.log('Hero to edit', hero);
+      const res = await this.editHero(hero);
+      console.log('Edit member RESSSSS', res);
+      if (res.error === 0) {
+        console.log('Hero edited', res.data);
+        await this.fetchTeamMembers();
+      }
     },
     async removeMemberFromTeam(member) {
-      const res = await this.removeHeroFromTeam(member._id);
+      console.log('member', member)
+      const res = await this.removeHeroFromTeam(member[0]._id);
+      console.log('Remove member from team', res);
       if (res.error === 0) {
-        this.teamMembers = this.teamMembers.filter(m => m._id !== member._id);
+        this.teamMembers = this.teamMembers.filter(m => m._id !== member[0]._id);
+        await this.fetchTeamMembers();
       }
     }
   },

@@ -41,8 +41,10 @@ export default {
             }
             return res;
         },
-        async editHero({dispatch, state}, {publicName, realName, powers}) {
-            const res = await heroService.updateHero(state.currentHero._id, publicName, realName, powers);
+        async editHero({dispatch, state, rootState}, {publicName, realName, powers}) {
+            const orgSecret = rootState.org.orgSecret;
+            const res = await heroService.updateHero(state.currentHero._id, publicName, realName, powers, orgSecret);
+            console.log("editHero", res)
             if (res.error === 0) {
                 dispatch('fetchHeroById', state.currentHero._id);
             }

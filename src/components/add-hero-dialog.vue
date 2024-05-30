@@ -28,11 +28,7 @@ export default {
       dialog: false,
       publicName: '',
       realName: '',
-      power: {
-        name: '',
-        type: '',
-        level: 0
-      }
+      power: []
     };
   },
   methods: {
@@ -43,8 +39,9 @@ export default {
       this.$emit('add-hero', {
         publicName: this.publicName,
         realName: this.realName,
-        power: [this.power]
+        power: this.power
       });
+      this.dialog = false;
     }
   },
 };
