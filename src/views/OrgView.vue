@@ -64,6 +64,8 @@ export default {
   methods: {
     ...mapActions(['removeTeam', 'setCurrentTeamFromId', "fetchTeams"]),
     async changeCurrentTeam(teamId) {
+      await this.fetchTeams();
+      console.log('teamList', this.teamList)
       console.log('changeCurrentTeam', teamId);
       await this.setCurrentTeamFromId(teamId);
       await this.$router.push({path: '/team'});
@@ -79,7 +81,6 @@ export default {
     },
   },
   async mounted() {
-    await this.fetchTeams();
     if (!this.currentOrg || Object.keys(this.currentOrg).length === 0) {
       console.log('No org found');
       this.$refs.errorDialog.show();
