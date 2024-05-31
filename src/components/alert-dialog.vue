@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="dialog" max-width="500px">
+  <v-dialog :value="dialog" max-width="500px" @click:outside="closeDialog">
     <v-card>
       <v-card-title>
         {{ title }}
@@ -9,8 +9,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="error" text @click="dialog = false"> Cancel</v-btn>
-        <v-btn text @click="dialog = false; afterClosedFunc();">{{ closeBtnText }}</v-btn>
+        <v-btn color="error" text @click="closeDialog"> Cancel</v-btn>
+        <v-btn text @click="closeDialog">{{ closeBtnText }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -42,6 +42,10 @@ export default {
   methods: {
     show() {
       this.dialog = true;
+    },
+    closeDialog() {
+      this.dialog = false;
+      this.afterClosedFunc();
     },
   },
 };
