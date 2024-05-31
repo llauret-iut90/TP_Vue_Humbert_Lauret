@@ -43,11 +43,11 @@
           </v-card-text>
           <v-card-actions style="position: absolute; bottom: 0; right: 0;">
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" @click="$refs.editHeroDialog.show(member)">
+            <v-btn small color="blue darken-1" @click="$refs.editHeroDialog.show(member)">
               <v-icon left>mdi-pencil</v-icon>
               Edit
             </v-btn>
-            <v-btn color="red darken-1" @click="removeMemberFromTeam(member)">
+            <v-btn small color="red darken-1" @click="confirmRemoveMemberFromTeam(member)">
               <v-icon left>mdi-delete</v-icon>
               Remove from Team
             </v-btn>
@@ -55,6 +55,15 @@
         </v-card>
       </v-col>
     </v-row>
+
+
+    <alert-dialog ref="confirmDialog"
+                  title="Confirm Delete"
+                  :afterClosedFunc="removeConfirmedMemberFromTeam"
+                  closeBtnText="Confirm">
+      Are you sure you want to remove <span
+        class="red">{{ this.memberToRemove ? this.memberToRemove[0].publicName : '' }}</span> from the team?
+    </alert-dialog>
 
     <add-hero-dialog ref="addHeroDialog" @add-hero="addHero"></add-hero-dialog>
     <add-existing-hero-dialog ref="addExistingHeroDialog"
@@ -68,10 +77,12 @@ import {mapActions, mapGetters} from "vuex";
 import AddHeroDialog from "@/components/add-hero-dialog.vue";
 import AddExistingHeroDialog from "@/components/add-existing-hero-dialog.vue";
 import EditHeroDialog from "@/components/edit-team-member-dialog.vue";
+import AlertDialog from "@/components/alert-dialog.vue";
 
 export default {
   name: 'TeamView',
   components: {
+    AlertDialog,
     EditHeroDialog,
     AddHeroDialog,
     AddExistingHeroDialog
@@ -79,6 +90,7 @@ export default {
   data() {
     return {
       teamMembers: [],
+      memberToRemove: null
     };
   },
   computed: {
@@ -169,6 +181,16 @@ export default {
       if (res.error === 0) {
         console.log('Hero edited', res.data);
         await this.fetchTeamMembers();
+      }
+    },
+    confirmRemoveMemberFromTeam(member) {
+      this.memberToRemove = member;
+      this.$refs.confirmDialog.show();
+    },
+    async removeConfirmedMemberFromTeam() {
+      if (this.memberToRemove) {
+        await this.removeMemberFromTeam(this.memberToRemove);
+        this.memberToRemove = null;
       }
     },
     async removeMemberFromTeam(member) {
