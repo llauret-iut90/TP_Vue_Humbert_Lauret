@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import AppSnackbar from "@/components/snackbar.vue";
 
 export default {
@@ -73,6 +73,7 @@ export default {
     }),
   },
   methods: {
+    ...mapGetters(['currentTeam']),
     ...mapActions(['fetchTeams', 'createTeam', 'setCurrentTeamFromId']),
     async addTeam() {
       const res = await this.createTeam(this.name);
@@ -90,6 +91,7 @@ export default {
     },
   },
   async created() {
+    console.log('currentTeam', this.currentTeam);
     const res = await this.fetchTeams();
     if (res.error !== 0) {
       this.$refs.snackbar.show(res.data.data);

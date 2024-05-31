@@ -59,13 +59,14 @@ export default {
   },
   computed: {
     // un getter sinon ce petit con est undefined
-    ...mapGetters(['currentOrg']),
+    ...mapGetters(['currentOrg', 'teamList']),
   },
   methods: {
-    ...mapActions(['removeTeam', 'setCurrentTeamFromId']),
+    ...mapActions(['removeTeam', 'setCurrentTeamFromId', "fetchTeams"]),
     async changeCurrentTeam(teamId) {
+      console.log('changeCurrentTeam', teamId);
       await this.setCurrentTeamFromId(teamId);
-      await this.$router.push('/team');
+      await this.$router.push({path: '/team'});
     },
     async deleteTeam() {
       console.log('delete team with id', this.selectedTeamId);
@@ -78,6 +79,7 @@ export default {
     },
   },
   async mounted() {
+    await this.fetchTeams();
     if (!this.currentOrg || Object.keys(this.currentOrg).length === 0) {
       console.log('No org found');
       this.$refs.errorDialog.show();

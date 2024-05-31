@@ -21,7 +21,6 @@ export default {
         async fetchTeams({commit}) {
             const res = await teamService.getTeams();
             if (res.error === 0) {
-                console.log("je fetch les teams", res.data)
                 commit('setTeamList', res.data);
             }
             return res;
@@ -35,6 +34,7 @@ export default {
         },
         setCurrentTeamFromId({state, commit}, teamId) {
             const team = state.teamList.find(team => team._id === teamId);
+            console.log("je set le current team", state.teamList)
             commit('setCurrentTeam', team);
         },
         async addHeroToTeam({dispatch, state}, heroId) {
