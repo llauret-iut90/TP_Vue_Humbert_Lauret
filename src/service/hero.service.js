@@ -10,6 +10,7 @@ async function createHero(publicName, realName, powers) {
     let data = {
         publicName: publicName, realName: realName, powers: powers
     }
+    console.log("createHero", data)
     return await postRequest("/heroes/create", data, "createHero");
 }
 
@@ -17,6 +18,7 @@ async function updateHero(_id, publicName, realName, powers, org_secret) {
     let data = {
         _id: _id, publicName: publicName, realName: realName, powers: powers,
     }
+    console.log("updateHero", data)
     return await putRequest(`/heroes/update`, data, "updateHero", {"org-secret": org_secret});
 }
 

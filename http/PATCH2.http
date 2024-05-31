@@ -1,9 +1,7 @@
-PATCH https://apidemo.iut-bm.univ-fcomte.fr/herocorp/teams/removeheroes
+PATCH https://apidemo.iut-bm.univ-fcomte.fr/herocorp/orgs/removeteam
 content-type: application/json
+org-secret: 123
 
 {
-  "idHeroes": [
-    "6658d10a069cfbf448c0aba0"
-  ],
-  "idTeam": "66561ccb069cfbf448c09502"
+  "idTeam": "6659d513069cfbf448c0b228"
 }

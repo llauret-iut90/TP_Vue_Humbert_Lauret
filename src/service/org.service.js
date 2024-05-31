@@ -22,9 +22,9 @@ async function addTeam(id_Team, org_secret) {
 
 async function removeTeam(id_Team, org_secret) {
     let data = {
-        id_Team: id_Team
+        idTeam: id_Team
     }
-    return await patchRequest(`/orgs/removeteam?org-secret=${org_secret}`, data, "removeTeam");
+    return await patchRequest(`/orgs/removeteam/`, data, "removeTeam", {"org-secret": org_secret});
 }
 
 async function getOrganizationById(_id, org_secret) {

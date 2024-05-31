@@ -62,12 +62,13 @@ export default {
     ...mapGetters(['currentOrg']),
   },
   methods: {
-    ...mapActions(['removeTeam', 'setCurrentTeamFromId']),
+    ...mapActions(['removeTeam', 'setCurrentTeamFromId', 'fetchTeams']),
     async changeCurrentTeam(teamId) {
       await this.setCurrentTeamFromId(teamId);
       await this.$router.push('/team');
     },
     async deleteTeam() {
+      console.log('delete team with id', this.selectedTeamId);
       const res = await this.removeTeam(this.selectedTeamId);
       if (res.error === 0) {
         this.$refs.snackbar.show(`Team with id ${this.selectedTeamId} deleted`);
@@ -76,7 +77,7 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     if (!this.currentOrg || Object.keys(this.currentOrg).length === 0) {
       console.log('No org found');
       this.$refs.errorDialog.show();

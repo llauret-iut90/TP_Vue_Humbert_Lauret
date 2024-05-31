@@ -7,7 +7,7 @@
       <v-card-text>
         <v-text-field label="Public Name" v-model="publicName" required></v-text-field>
         <v-text-field label="Real Name" v-model="realName" required></v-text-field>
-        <v-row v-for="(power, index) in power" :key="index">
+        <v-row v-for="(power, index) in powers" :key="index">
           <v-col cols="12">
             <v-card class="mb-5">
               <v-card-title>Power {{ index + 1 }}</v-card-title>
@@ -51,35 +51,38 @@ export default {
   data() {
     return {
       dialog: false,
+      _id: '',
       publicName: '',
       realName: '',
-      power: []
+      powers: []
     };
   },
   methods: {
     show(member) {
+      this._id = member[0]._id;
       this.publicName = member[0].publicName;
       this.realName = member[0].realName;
       if (member[0].powers && member[0].powers.length > 0) {
-        this.power = member[0].powers;
+        this.powers = member[0].powers;
       } else {
-        this.power = [{
+        this.powers = [{
           name: '',
           type: '',
           level: 0
         }];
       }
-      console.log('power', this.power);
+      console.log('powerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr', this.powers);
 
       this.dialog = true;
     },
     emitHeroData() {
       this.$emit('edit-hero', {
+        _id: this._id,
         publicName: this.publicName,
         realName: this.realName,
-        power: this.power
+        powers: this.powers
       });
-      console.log('power emit', this.power);
+      console.log('power emit', this.powers);
       this.dialog = false;
     }
   },

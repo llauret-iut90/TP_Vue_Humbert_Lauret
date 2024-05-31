@@ -1,3 +1,3 @@
-GET https://apidemo.iut-bm.univ-fcomte.fr/herocorp/orgs/getbyid/66561c22069cfbf448c094e8
+GET https://apidemo.iut-bm.univ-fcomte.fr/herocorp/heroes/getbyid/6658d9a9069cfbf448c0ae74
 Accept: application/json
 org-secret: 0000

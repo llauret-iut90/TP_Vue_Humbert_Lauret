@@ -4,8 +4,14 @@
       <v-card-title class="justify-lg-space-between">
         {{ currentTeam.name }}
         <div>
-          <v-btn color="blue darken-1" @click="$refs.addHeroDialog.show()">Create Member</v-btn>
-          <v-btn color="green darken-1" @click="$refs.addExistingHeroDialog.show()">Add existing hero</v-btn>
+          <v-btn color="blue darken-1" @click="$refs.addHeroDialog.show()">
+            <v-icon left>mdi-account-plus</v-icon>
+            Create Member
+          </v-btn>
+          <v-btn color="green darken-1" @click="$refs.addExistingHeroDialog.show()">
+            <v-icon left>mdi-account-multiple-plus</v-icon>
+            Add existing hero
+          </v-btn>
         </div>
       </v-card-title>
       <v-card-text>
@@ -15,23 +21,36 @@
 
     <v-row>
       <v-col cols="4" v-for="member in teamMembers" :key="member._id">
-        <v-card>
+        <v-card class="fixed-card">
           <v-card-title>
             {{ member[0].publicName }}
           </v-card-title>
-          <v-card-text>
+          <v-card-subtitle>
             Real Name: {{ member[0].realName }}
-            <div v-if="member[0].powers.length > 0">
-              Power name: {{ member[0].powers[0].name }}
-              <br>
-              Power level: {{ member[0].powers[0].level }}
-              <br>
-              Power type: {{ member[0].powers[0].type }}
-            </div>
+          </v-card-subtitle>
+          <v-card-text>
+            <v-row v-for="(power, index) in member[0].powers" :key="index">
+              <v-col cols="4">
+                Power name: {{ power.name }}
+              </v-col>
+              <v-col cols="4">
+                Power level: {{ power.level }}
+              </v-col>
+              <v-col cols="4">
+                Power type: {{ power.type }}
+              </v-col>
+            </v-row>
           </v-card-text>
-          <v-card-actions>
-            <v-btn color="blue darken-1" @click="$refs.editHeroDialog.show(member)">Edit</v-btn>
-            <v-btn color="red darken-1" @click="removeMemberFromTeam(member)">Remove from Team</v-btn>
+          <v-card-actions style="position: absolute; bottom: 0; right: 0;">
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" @click="$refs.editHeroDialog.show(member)">
+              <v-icon left>mdi-pencil</v-icon>
+              Edit
+            </v-btn>
+            <v-btn color="red darken-1" @click="removeMemberFromTeam(member)">
+              <v-icon left>mdi-delete</v-icon>
+              Remove from Team
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -75,16 +94,18 @@ export default {
     ...mapActions(['createHero', 'addHeroToTeam', 'fetchHeroes', 'fetchOrgById', 'removeHeroFromTeam', 'editHero', 'fetchHeroById']),
 
     async addHero(heroData) {
-      const {publicName, realName, power} = heroData;
+      const {publicName, realName, powers} = heroData;
       const hero = {
         publicName,
         realName,
-        power: power
+        powers
       };
+      console.log('Hero to create', hero);
       const res = await this.createHero(hero);
       if (res.error === 0) {
         console.log('Hero created', res.data);
         await this.addHeroToTeam(res.data._id);
+        await this.fetchTeamMembers();
       }
     },
     async fetchTeamMembers() {
@@ -107,11 +128,11 @@ export default {
                   const res = await this.fetchHeroById(memberIds[i]);
                   console.log('Hero fetched', res.data);
                   this.teamMembers.push(res.data);
-                  console.log('Team members', this.teamMembers);
                 } catch (error) {
                   console.error(`Error fetching hero with id ${memberIds[i]}: ${error}`);
                 }
               }
+              console.log('Team members', this.teamMembers);
             } else {
               console.log('No team members');
             }
@@ -135,11 +156,12 @@ export default {
     },
     async editMember(member) {
       console.log('Edit member', member);
-      const {publicName, realName, power} = member;
+      const {_id, publicName, realName, powers} = member;
       const hero = {
+        _id,
         publicName,
         realName,
-        powers: power
+        powers
       };
       console.log('Hero to edit', hero);
       const res = await this.editHero(hero);
@@ -161,3 +183,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.fixed-card {
+  height: 300px;
+  overflow: auto;
+}
+</style>
