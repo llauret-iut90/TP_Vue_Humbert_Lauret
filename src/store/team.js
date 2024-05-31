@@ -21,6 +21,7 @@ export default {
         async fetchTeams({commit}) {
             const res = await teamService.getTeams();
             if (res.error === 0) {
+                console.log("je fetch les teams", res.data)
                 commit('setTeamList', res.data);
             }
             return res;

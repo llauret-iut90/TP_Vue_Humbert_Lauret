@@ -62,7 +62,7 @@ export default {
     ...mapGetters(['currentOrg']),
   },
   methods: {
-    ...mapActions(['removeTeam', 'setCurrentTeamFromId', 'fetchTeams']),
+    ...mapActions(['removeTeam', 'setCurrentTeamFromId']),
     async changeCurrentTeam(teamId) {
       await this.setCurrentTeamFromId(teamId);
       await this.$router.push('/team');

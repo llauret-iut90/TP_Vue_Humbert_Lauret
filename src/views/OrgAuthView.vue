@@ -4,13 +4,15 @@
       <v-card-title>
         Set a password
       </v-card-title>
-      <v-card-text>
-        <v-text-field label="Password" v-model="password" type="password" required></v-text-field>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="changeSecret()">Add</v-btn>
-      </v-card-actions>
+      <form @submit.prevent="changeSecret">
+        <v-card-text>
+          <v-text-field label="Password" v-model="password" type="password" required></v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text type="submit">Add</v-btn>
+        </v-card-actions>
+      </form>
     </v-card>
 
     <app-snackbar ref="snackbar"></app-snackbar>

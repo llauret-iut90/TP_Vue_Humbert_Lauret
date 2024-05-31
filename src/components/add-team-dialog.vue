@@ -48,7 +48,7 @@ export default {
     ...mapActions(['fetchTeams', 'addTeam']),
     async getTeams() {
       const res = await this.fetchTeams();
-      console.log("JE GET LES TEAMS", this.selectedTeam);
+      console.log("JE GET LES TEAMS", res);
       if (res.error !== 0) {
         this.$refs.snackbar.show(res.data.data);
       }

@@ -5,14 +5,19 @@
         Add Hero
       </v-card-title>
       <v-card-text>
-        <v-text-field label="Public Name" v-model="publicName" required></v-text-field>
-        <v-text-field label="Real Name" v-model="realName" required></v-text-field>
-        <div v-for="(power, index) in powers" :key="index">
-          <v-text-field label="Power Name" v-model="power.name" required></v-text-field>
-          <v-text-field label="Power Type" v-model="power.type" type="number" required></v-text-field>
-          <v-text-field label="Power Level" v-model="power.level" type="number" required></v-text-field>
-        </div>
-        <v-btn color="blue darken-1" @click="addPower">Add Power</v-btn>
+        <v-form ref="form">
+          <v-text-field label="Public Name" v-model="publicName"
+                        :rules="[rules.required, rules.uniqueName]"></v-text-field>
+          <v-text-field label="Real Name" v-model="realName" :rules="[rules.required]"></v-text-field>
+          <div v-for="(power, index) in powers" :key="index">
+            <v-text-field label="Power Name" v-model="power.name" :rules="[rules.required]"></v-text-field>
+            <v-text-field label="Power Type" v-model="power.type" type="number" :min="0"
+                          :rules="[rules.required]"></v-text-field>
+            <v-text-field label="Power Level" v-model="power.level" type="number" :min="0"
+                          :rules="[rules.required]"></v-text-field>
+          </div>
+          <v-btn color="blue darken-1" @click="addPower">Add Power</v-btn>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -24,6 +29,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: 'AddHeroDialog',
   data() {
@@ -31,8 +38,15 @@ export default {
       dialog: false,
       publicName: '',
       realName: '',
-      powers: [{name: '', type: 0, level: 0}, {name: '', type: 0, level: 0}]
+      powers: [{name: '', type: 0, level: 0}, {name: '', type: 0, level: 0}],
+      rules: {
+        required: value => !!value || 'Required.',
+        uniqueName: value => !this.heroesAliases.some(hero => hero.publicName === value) || 'Name already exists.',
+      },
     };
+  },
+  computed: {
+    ...mapGetters(['heroesAliases']),
   },
   methods: {
     show() {
@@ -42,15 +56,17 @@ export default {
       this.powers.push({name: '', type: 0, level: 0});
     },
     emitHeroData() {
-      this.$emit('add-hero', {
-        publicName: this.publicName,
-        realName: this.realName,
-        powers: this.powers
-      });
-      this.dialog = false;
-      this.publicName = '';
-      this.realName = '';
-      this.powers = [{name: '', type: 0, level: 0}, {name: '', type: 0, level: 0}];
+      if (this.$refs.form.validate()) {
+        this.$emit('add-hero', {
+          publicName: this.publicName,
+          realName: this.realName,
+          powers: this.powers
+        });
+        this.dialog = false;
+        this.publicName = '';
+        this.realName = '';
+        this.powers = [{name: '', type: 0, level: 0}, {name: '', type: 0, level: 0}];
+      }
     }
   },
 };
