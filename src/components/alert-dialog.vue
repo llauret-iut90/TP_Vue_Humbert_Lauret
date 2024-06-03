@@ -9,7 +9,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="error" text @click="closeDialog"> Cancel</v-btn>
+        <v-btn color="error" text @click="dialog = false"> Cancel</v-btn>
         <v-btn text @click="closeDialog">{{ closeBtnText }}</v-btn>
       </v-card-actions>
     </v-card>

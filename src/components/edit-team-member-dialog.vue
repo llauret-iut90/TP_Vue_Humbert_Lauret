@@ -38,6 +38,7 @@
             </v-col>
           </v-row>
           <v-btn color="blue darken-1" @click="addPower">Add Power</v-btn>
+          <v-btn color="red darken-1" @click="deletePower" v-if="powers.length > 2">Delete recent power</v-btn>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -65,7 +66,7 @@ export default {
   data() {
     return {
       dialog: false,
-      _id: '',
+      id: '',
       publicName: '',
       realName: '',
       powers: [{name: '', type: 0, level: 0}, {name: '', type: 0, level: 0}]
@@ -73,11 +74,15 @@ export default {
   },
   methods: {
     show(member) {
-      this._id = member[0]._id;
+      this.id = member[0]._id;
       this.publicName = member[0].publicName;
       this.realName = member[0].realName;
       if (member[0].powers && member[0].powers.length > 0) {
-        this.powers = member[0].powers;
+        // deep copy of array
+        this.powers = [];
+        for (const obj of member[0].powers) {
+          this.powers.push({...obj});
+        }
       } else {
         this.powers = [{
           name: '',
@@ -90,13 +95,18 @@ export default {
     addPower() {
       this.powers.push({name: '', type: 0, level: 0});
     },
+    deletePower() {
+      if (this.powers.length > 2) {
+        this.powers.pop();
+      }
+    },
     confirmEditMember() {
       this.$refs.confirmDialog.show();
     },
     emitHeroData() {
       if (this.dialog) {
         this.$emit('edit-hero', {
-          _id: this._id,
+          _id: this.id,
           publicName: this.publicName,
           realName: this.realName,
           powers: this.powers

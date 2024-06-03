@@ -43,7 +43,7 @@ export default {
                 dispatch('fetchOrgById', state.currentOrg._id);
             }
             return res;
-        }, async addTeam({dispatch, state}, teamId) {
+        }, async addTeam({state}, teamId) {
             console.log("addteam org", teamId, state.orgSecret)
             const res = await orgService.addTeam(teamId, state.orgSecret);
             console.log("addteam org", res)
