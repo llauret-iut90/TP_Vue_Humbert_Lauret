@@ -4,7 +4,7 @@ export default {
     state: () => ({
         orgSecret: '', orgList: [], currentOrg: {},
     }), getters: {
-        orgList: state => state.orgList, currentOrg: state => state.currentOrg,
+        orgList: state => state.orgList, currentOrg: state => state.currentOrg, orgSecret: state => state.orgSecret,
     }, mutations: {
         setOrgSecret(state, secret) {
             state.orgSecret = secret;
@@ -26,18 +26,15 @@ export default {
                 dispatch('fetchOrgs');
             }
             return res;
-        },
-        setOrgSecret({commit}, secret) {
+        }, setOrgSecret({commit}, secret) {
             commit('setOrgSecret', secret);
-        },
-        async fetchOrgById({commit, state}, _id) {
+        }, async fetchOrgById({commit, state}, _id) {
             const res = await orgService.getOrganizationById(_id, state.orgSecret);
             if (res.error === 0) {
                 commit('setCurrentOrg', res.data[0]);
             }
             return res;
-        },
-        async removeTeam({dispatch, state}, teamId) {
+        }, async removeTeam({dispatch, state}, teamId) {
             const res = await orgService.removeTeam(teamId, state.orgSecret);
             if (res.error === 0) {
                 dispatch('fetchOrgById', state.currentOrg._id);
