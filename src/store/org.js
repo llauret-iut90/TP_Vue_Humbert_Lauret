@@ -8,6 +8,7 @@ export default {
     }, mutations: {
         setOrgSecret(state, secret) {
             state.orgSecret = secret;
+            console.log("je set le secret VUEX C'EST DE LA MERDE", secret)
         }, setOrgList(state, orgList) {
             state.orgList = orgList;
         }, setCurrentOrg(state, org) {
@@ -26,8 +27,9 @@ export default {
                 dispatch('fetchOrgs');
             }
             return res;
-        }, setOrgSecret({commit}, secret) {
+        }, async setOrgSecret({commit}, secret) {
             commit('setOrgSecret', secret);
+            console.log("je set le secret", secret)
         }, async fetchOrgById({commit, state}, _id) {
             const res = await orgService.getOrganizationById(_id, state.orgSecret);
             if (res.error === 0) {

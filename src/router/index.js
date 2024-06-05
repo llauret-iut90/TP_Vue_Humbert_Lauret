@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -10,38 +11,36 @@ const routes = [{
 }, {
     path: '/org', name: 'org', component: () => import('../views/OrgView.vue'), meta: {levelAuth: 1}
 }, {
-    path: '/teamList', name: 'teamList', component: () => import('../views/TeamListView.vue'), meta: {levelAuth: 0}
+    path: '/teamList', name: 'teamList', component: () => import('../views/TeamListView.vue'), meta: {levelAuth: 1}
 }, {
     path: '/team', name: 'team', component: () => import('../views/TeamView.vue'), meta: {levelAuth: 1}
 }, {
-    path: '*', name: 'error404',
-},]
+    path: '*', name: 'error404', component: () => import('../views/ErrorView.vue'), meta: {levelAuth: 0}
+}]
 
 const router = new VueRouter({
     mode: 'history', base: process.env.BASE_URL, routes
 })
 
+function checkAccess(to, from, next) {
+    let orgSecret = store.getters.orgSecret;
+    let currentOrg = store.getters.currentOrg;
 
-function checkAccess(to) {
-    // si la route n'a pas de niveau d'authentification, on laisse passer
     if (to.meta.levelAuth === 0) {
-        return true
+        console.log(orgSecret)
+        next();
+    } else if (orgSecret === '') {
+        next({name: 'orgauth'});
+    } else if (Object.keys(currentOrg).length === 0 && to.path.startsWith('/team')) {
+        next({name: 'orgList'});
     } else {
-        // si la route a un niveau d'authentification, on vérifie si org-secret est pas vide
-        return localStorage.getItem('orgSecret') !== null && localStorage.getItem('orgSecret') !== ''
+        console.log("VOUS NE PASSERAI PAS (si vous n'avez pas de secret)")
+        console.log("orgSecret getter value", orgSecret)
+        console.log("return value", orgSecret !== '')
+        next(orgSecret !== '' ? undefined : {name: 'orgauth'});
     }
 }
 
-router.beforeEach((to, from, next) => {
-    if (to.name === 'error404') {
-        next({name: 'orgList'})
-    } else {
-        if (checkAccess(to)) {
-            next()
-        } else {
-            next({name: 'orgauth'})
-        }
-    }
-})
+router.beforeEach(checkAccess);
 
 export default router

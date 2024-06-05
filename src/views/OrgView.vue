@@ -65,7 +65,7 @@ export default {
       console.log('teamList', this.teamList)
       console.log('changeCurrentTeam', teamId);
       await this.setCurrentTeamFromId(teamId);
-      await this.$router.push({path: '/team'});
+      await this.$router.push('/team').catch(() => {});
     },
     async deleteTeam() {
       console.log('delete team with id', this.selectedTeamId);

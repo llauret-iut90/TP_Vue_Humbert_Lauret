@@ -84,7 +84,7 @@ export default {
     },
     async changeCurrentTeam(teamId) {
       await this.setCurrentTeamFromId(teamId);
-      await this.$router.push({path: '/team'});
+      await this.$router.push('/team').catch(() => {});
     },
   },
   async created() {

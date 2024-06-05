@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import {mapActions, mapMutations, mapState} from 'vuex';
+import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
 import AddOrgDialog from "@/components/add-org-dialog.vue";
 
 export default {
@@ -61,6 +61,7 @@ export default {
   methods: {
     ...mapActions(['fetchOrgs', 'createOrg', 'fetchOrgById']),
     ...mapMutations(['pushNotifMessage']),
+    ...mapGetters(['orgSecret']),
     /*
     * L'évenement émis par le composant AddDialog add-event envoie name et password
     * {name: this.name, secret: this.password});
@@ -79,9 +80,13 @@ export default {
         this.$refs.addDialog.dialog = false;
       }
     },
-    changeCurrentOrg(orgId) {
+    async changeCurrentOrg(orgId) {
       this.fetchOrgById(orgId).then(() => {
-        this.$router.push('/org');
+        if (!this.orgSecret) {
+          this.$router.push('/auth').catch(() => {});
+        } else {
+          this.$router.push('/org').catch(() => {});
+        }
       });
     },
   },
