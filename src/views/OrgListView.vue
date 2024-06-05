@@ -73,7 +73,7 @@ export default {
       this.dialog = false;
 
       if (res.error !== 0) {
-        this.pushNotifMessage(res.data.data);
+        this.pushNotifMessage('Error:' + res.data.data);
       } else {
         this.pushNotifMessage('Success for org creation');
         this.$refs.addDialog.dialog = false;
@@ -88,7 +88,7 @@ export default {
   async created() {
     const res = await this.fetchOrgs();
     if (res.error !== 0) {
-      this.pushNotifMessage(res.data.data);
+      this.pushNotifMessage('Error:' + res.data.data);
     }
   },
 }

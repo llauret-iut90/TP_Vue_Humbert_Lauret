@@ -1,6 +1,6 @@
 <template>
   <v-snackbar :value="isNotifMessage" @input="popNotifMessage">
-    Error: {{ notifMessage }}
+    {{ notifMessage }}
 
     <template v-slot:action="{ attrs }">
       <v-btn

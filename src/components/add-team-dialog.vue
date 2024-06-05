@@ -46,14 +46,14 @@ export default {
       const res = await this.fetchTeams();
       console.log("JE GET LES TEAMS", res);
       if (res.error !== 0) {
-        this.pushNotifMessage(res.data.data);
+        this.pushNotifMessage('Error:' + res.data.data);
       }
     },
     async addTeamToOrg() {
       const res = await this.addTeam(this.selectedTeam);
       console.log("JE SUIS LA TEAM", this.selectedTeam);
       if (res.error !== 0) {
-        this.pushNotifMessage(res.data.data);
+        this.pushNotifMessage('Error:' + res.data.data);
       }
       this.selectedTeam = null;
       this.dialog = false;

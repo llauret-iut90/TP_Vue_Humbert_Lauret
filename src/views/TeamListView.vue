@@ -77,7 +77,7 @@ export default {
       this.dialog = false;
 
       if (res.error !== 0) {
-        this.pushNotifMessage(res.data.data);
+        this.pushNotifMessage('Error:' + res.data.data);
       } else {
         this.pushNotifMessage('Success for team creation');
       }
@@ -91,7 +91,7 @@ export default {
     console.log('currentTeam', this.currentTeam);
     const res = await this.fetchTeams();
     if (res.error !== 0) {
-      this.pushNotifMessage(res.data.data);
+      this.pushNotifMessage('Error:' + res.data.data);
     }
   },
 };

@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import AddHeroDialog from "@/components/add-hero-dialog.vue";
 import AddExistingHeroDialog from "@/components/add-existing-hero-dialog.vue";
 import EditHeroDialog from "@/components/edit-team-member-dialog.vue";
@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     ...mapActions(['createHero', 'addHeroToTeam', 'fetchHeroes', 'fetchOrgById', 'removeHeroFromTeam', 'editHero', 'fetchHeroById']),
-
+    ...mapMutations(['pushNotifMessage']),
     async addHero(heroData) {
       const {publicName, realName, powers} = heroData;
       const hero = {
@@ -118,6 +118,9 @@ export default {
         console.log('Hero created', res.data);
         await this.addHeroToTeam(res.data._id);
         await this.fetchTeamMembers();
+        this.pushNotifMessage('Hero created and added to team');
+      } else {
+        this.pushNotifMessage('Error:' + res.data.data);
       }
     },
     async fetchTeamMembers() {
@@ -181,6 +184,9 @@ export default {
       if (res.error === 0) {
         console.log('Hero edited', res.data);
         await this.fetchTeamMembers();
+        this.pushNotifMessage('Hero edited');
+      } else {
+        this.pushNotifMessage('Error:' + res.data.data);
       }
     },
     confirmRemoveMemberFromTeam(member) {
@@ -200,6 +206,9 @@ export default {
       if (res.error === 0) {
         this.teamMembers = this.teamMembers.filter(m => m._id !== member[0]._id);
         await this.fetchTeamMembers();
+        this.pushNotifMessage('Member removed from team');
+      } else {
+        this.pushNotifMessage('Error:' + res.data.data);
       }
     }
   },
