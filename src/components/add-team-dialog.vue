@@ -5,14 +5,13 @@
         Add a team
       </v-card-title>
       <v-card-text>
-        <v-radio-group v-model="selectedTeam">
-          <v-radio
-              v-for="team in addableTeams"
-              :key="team._id"
-              :label="team.name"
-              :value="team._id"
-          ></v-radio>
-        </v-radio-group>
+        <v-select
+            v-model="selectedTeam"
+            :items="addableTeams"
+            item-text="name"
+            item-value="_id"
+            label="Select a team"
+        ></v-select>
       </v-card-text>
       <v-card-actions class="sticky-actions">
         <v-spacer></v-spacer>
