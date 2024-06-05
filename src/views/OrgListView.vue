@@ -35,19 +35,16 @@
         @add-event="addOrg"
         ref="addDialog"
     ></add-org-dialog>
-
-    <app-snackbar ref="snackbar"></app-snackbar>
   </v-container>
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex';
-import AppSnackbar from "@/components/snackbar.vue";
+import {mapActions, mapMutations, mapState} from 'vuex';
 import AddOrgDialog from "@/components/add-org-dialog.vue";
 
 export default {
   name: 'OrgListView',
-  components: {AddOrgDialog, AppSnackbar},
+  components: {AddOrgDialog},
   data() {
     return {
       search: '',
@@ -63,6 +60,7 @@ export default {
   },
   methods: {
     ...mapActions(['fetchOrgs', 'createOrg', 'fetchOrgById']),
+    ...mapMutations(['pushNotifMessage']),
     /*
     * L'évenement émis par le composant AddDialog add-event envoie name et password
     * {name: this.name, secret: this.password});
@@ -75,9 +73,9 @@ export default {
       this.dialog = false;
 
       if (res.error !== 0) {
-        this.$refs.snackbar.show(res.data.data);
+        this.pushNotifMessage(res.data.data);
       } else {
-        this.$refs.snackbar.show('Success for org creation');
+        this.pushNotifMessage('Success for org creation');
         this.$refs.addDialog.dialog = false;
       }
     },
@@ -90,7 +88,7 @@ export default {
   async created() {
     const res = await this.fetchOrgs();
     if (res.error !== 0) {
-      this.$refs.snackbar.show(res.data.data);
+      this.pushNotifMessage(res.data.data);
     }
   },
 }

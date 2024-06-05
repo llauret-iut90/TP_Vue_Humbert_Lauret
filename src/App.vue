@@ -1,5 +1,7 @@
 <template>
   <v-app>
+    <app-snackbar></app-snackbar>
+
     <v-app-bar
         app
         color="primary"
@@ -40,8 +42,11 @@
 </template>
 
 <script>
+import AppSnackbar from "@/components/snackbar.vue";
+
 export default {
   name: 'App',
+  components: {AppSnackbar},
 
   data() {
     return {

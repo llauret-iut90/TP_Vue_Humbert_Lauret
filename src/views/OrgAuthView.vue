@@ -14,17 +14,13 @@
         </v-card-actions>
       </form>
     </v-card>
-
-    <app-snackbar ref="snackbar"></app-snackbar>
   </v-container>
 </template>
 
 <script>
-import AppSnackbar from "@/components/snackbar.vue";
-import {mapActions} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 
 export default {
-  components: {AppSnackbar},
   data() {
     return {
       password: '',
@@ -32,9 +28,10 @@ export default {
   },
   methods: {
     ...mapActions(['setOrgSecret']),
+    ...mapMutations(['pushNotifMessage']),
     changeSecret() {
       this.setOrgSecret(this.password);
-      this.$refs.snackbar.show('Password set');
+      this.pushNotifMessage('Password set');
       this.$router.push('/orgList');
     },
   },

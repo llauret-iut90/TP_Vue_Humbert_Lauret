@@ -19,18 +19,14 @@
         <v-btn color="blue darken-1" text :disabled="selectedTeam === null" @click="addTeamToOrg()">Add</v-btn>
       </v-card-actions>
     </v-card>
-
-    <app-snackbar ref="snackbar"></app-snackbar>
   </v-dialog>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-import AppSnackbar from "@/components/snackbar.vue";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'AddTeamDialog',
-  components: {AppSnackbar},
   data() {
     return {
       dialog: false,
@@ -45,18 +41,19 @@ export default {
   },
   methods: {
     ...mapActions(['fetchTeams', 'addTeam']),
+    ...mapMutations(['pushNotifMessage']),
     async getTeams() {
       const res = await this.fetchTeams();
       console.log("JE GET LES TEAMS", res);
       if (res.error !== 0) {
-        this.$refs.snackbar.show(res.data.data);
+        this.pushNotifMessage(res.data.data);
       }
     },
     async addTeamToOrg() {
       const res = await this.addTeam(this.selectedTeam);
       console.log("JE SUIS LA TEAM", this.selectedTeam);
       if (res.error !== 0) {
-        this.$refs.snackbar.show(res.data.data);
+        this.pushNotifMessage(res.data.data);
       }
       this.selectedTeam = null;
       this.dialog = false;

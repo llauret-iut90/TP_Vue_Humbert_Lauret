@@ -45,18 +45,14 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-    <app-snackbar ref="snackbar"></app-snackbar>
   </v-container>
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from 'vuex';
-import AppSnackbar from "@/components/snackbar.vue";
+import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
 
 export default {
   name: 'TeamListView',
-  components: {AppSnackbar},
   data() {
     return {
       search: '',
@@ -75,14 +71,15 @@ export default {
   methods: {
     ...mapGetters(['currentTeam']),
     ...mapActions(['fetchTeams', 'createTeam', 'setCurrentTeamFromId']),
+    ...mapMutations(['pushNotifMessage']),
     async addTeam() {
       const res = await this.createTeam(this.name);
       this.dialog = false;
 
       if (res.error !== 0) {
-        this.$refs.snackbar.show(res.data.data);
+        this.pushNotifMessage(res.data.data);
       } else {
-        this.$refs.snackbar.show('Success for team creation');
+        this.pushNotifMessage('Success for team creation');
       }
     },
     async changeCurrentTeam(teamId) {
@@ -94,7 +91,7 @@ export default {
     console.log('currentTeam', this.currentTeam);
     const res = await this.fetchTeams();
     if (res.error !== 0) {
-      this.$refs.snackbar.show(res.data.data);
+      this.pushNotifMessage(res.data.data);
     }
   },
 };

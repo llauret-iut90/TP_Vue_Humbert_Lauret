@@ -1,13 +1,13 @@
 <template>
-  <v-snackbar :value="snackbar" @input="snackbar = false">
-    {{ textSnackbar }}
+  <v-snackbar :value="isNotifMessage" @input="popNotifMessage">
+    Error: {{ notifMessage }}
 
     <template v-slot:action="{ attrs }">
       <v-btn
           color="pink"
           text
           v-bind="attrs"
-          @click="snackbar = false"
+          @click="popNotifMessage"
       >
         Close
       </v-btn>
@@ -16,19 +16,15 @@
 </template>
 
 <script>
+import {mapMutations, mapState} from "vuex";
+
 export default {
   name: 'AppSnackbar',
-  data() {
-    return {
-      snackbar: false,
-      textSnackbar: '',
-    };
+  computed: {
+    ...mapState(['isNotifMessage', 'notifMessage'])
   },
   methods: {
-    show(text) {
-      this.textSnackbar = text;
-      this.snackbar = true;
-    },
-  },
+    ...mapMutations(['popNotifMessage'])
+  }
 };
 </script>

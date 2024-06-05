@@ -37,21 +37,17 @@
     </alert-dialog>
 
     <add-team-dialog ref="addTeamDialog"></add-team-dialog>
-
-    <app-snackbar ref="snackbar"></app-snackbar>
-
   </v-container>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import AlertDialog from "@/components/alert-dialog.vue";
-import AppSnackbar from "@/components/snackbar.vue";
 import AddTeamDialog from "@/components/add-team-dialog.vue";
 
 export default {
   name: 'OrgView',
-  components: {AddTeamDialog, AppSnackbar, AlertDialog},
+  components: {AddTeamDialog, AlertDialog},
   data() {
     return {
       selectedTeamId: '',
@@ -63,6 +59,7 @@ export default {
   },
   methods: {
     ...mapActions(['removeTeam', 'setCurrentTeamFromId', "fetchTeams"]),
+    ...mapMutations(['pushNotifMessage']),
     async changeCurrentTeam(teamId) {
       await this.fetchTeams();
       console.log('teamList', this.teamList)
@@ -74,9 +71,9 @@ export default {
       console.log('delete team with id', this.selectedTeamId);
       const res = await this.removeTeam(this.selectedTeamId);
       if (res.error === 0) {
-        this.$refs.snackbar.show(`Team with id ${this.selectedTeamId} deleted`);
+        this.pushNotifMessage(`Team with id ${this.selectedTeamId} deleted`);
       } else {
-        this.$refs.snackbar.show(`Error deleting team with id ${this.selectedTeamId}`);
+        this.pushNotifMessage(`Error deleting team with id ${this.selectedTeamId}`);
       }
     },
   },
