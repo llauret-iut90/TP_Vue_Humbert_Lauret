@@ -27,15 +27,17 @@ const router = new VueRouter({
 
 function checkAccess(to, from, next) {
     let orgSecret = store.getters.orgSecret;
-    let currentOrg = store.getters.currentOrg;
+    let currentTeam = store.getters.currentTeam;
 
     if (to.meta.levelAuth === 0) {
         console.log(orgSecret)
         next();
     } else if (orgSecret === '') {
         next({name: 'orgauth'});
-    } else if (Object.keys(currentOrg).length === 0 && to.path.startsWith('/team')) {
-        next({name: 'orgList'});
+    }
+    if (Object.keys(currentTeam).length === 0 && to.path === '/team') {
+        console.log("VOUS NE PASSERAI PAS (si vous n'avez pas de team)")
+        next({name: 'org'});
     } else {
         console.log("VOUS NE PASSERAI PAS (si vous n'avez pas de secret)")
         console.log("orgSecret getter value", orgSecret)

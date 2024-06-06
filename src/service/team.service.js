@@ -1,6 +1,4 @@
-import {getRequest} from "@/service/axios.service";
-import {postRequest} from "@/service/axios.service";
-import {patchRequest} from "@/service/axios.service";
+import {getRequest, patchRequest, postRequest} from "@/service/axios.service";
 
 async function getTeams() {
     return await getRequest("teams/get", "getTeams");
@@ -12,8 +10,7 @@ async function createTeam(body) {
 
 async function addHeroes(idHeroes, idTeam) {
     let data = {
-        idHeroes: [idHeroes],
-        idTeam: idTeam
+        idHeroes: [idHeroes], idTeam: idTeam
     }
     console.log("DATA de add heroes", data)
     return await patchRequest(`teams/addheroes`, data, "addHeroes", {});
@@ -21,8 +18,7 @@ async function addHeroes(idHeroes, idTeam) {
 
 async function removeHeroes(idHeroes, idTeam) {
     let data = {
-        idHeroes: [idHeroes],
-        idTeam: idTeam
+        idHeroes: [idHeroes], idTeam: idTeam
     }
     console.log("j'enlève un hero de l'équipe", data)
     return await patchRequest(`teams/removeheroes`, data, "removeHeroes", {});
@@ -30,8 +26,5 @@ async function removeHeroes(idHeroes, idTeam) {
 
 
 export {
-    getTeams,
-    createTeam,
-    addHeroes,
-    removeHeroes
+    getTeams, createTeam, addHeroes, removeHeroes
 }
