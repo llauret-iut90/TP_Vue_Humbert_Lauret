@@ -12,7 +12,11 @@
       </v-btn>
 
       <v-spacer></v-spacer>
-      <v-btn to="/auth">Auth</v-btn>
+      <div>
+        <v-btn to="/login" color="green">Login</v-btn>
+        &nbsp;
+        <v-btn to="/auth">Org secret</v-btn>
+      </div>
     </v-app-bar>
 
     <v-navigation-drawer

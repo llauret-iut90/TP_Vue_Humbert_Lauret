@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import {mapMutations, mapState} from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'AppSnackbar',
   computed: {
-    ...mapState(['isNotifMessage', 'notifMessage'])
+    ...mapGetters(['isNotifMessage', 'notifMessage'])
   },
   methods: {
     ...mapMutations(['popNotifMessage'])

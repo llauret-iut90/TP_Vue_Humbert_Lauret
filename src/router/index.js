@@ -19,6 +19,8 @@ const routes = [{
     path: '/team', name: 'team', component: () => import('../views/TeamView.vue'), meta: {levelAuth: 1}
 }, {
     path: '*', name: 'error404', component: () => import('../views/ErrorView.vue'), meta: {levelAuth: 0}
+}, {
+    path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: {levelAuth: 0}
 }]
 
 const router = new VueRouter({

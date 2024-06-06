@@ -3,6 +3,10 @@ export default {
         isNotifMessage: false,
         notifMessage: '',
     },
+    getters: {
+        isNotifMessage: state => state.isNotifMessage,
+        notifMessage: state => state.notifMessage,
+    },
     mutations: {
         pushNotifMessage(state, msg) {
             state.notifMessage = msg

@@ -5,6 +5,7 @@ import orgStore from './org'
 import teamStore from './team'
 import heroStore from './hero'
 import notifStore from './notif'
+import authStore from './auth'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
         org: orgStore,
         team: teamStore,
         hero: heroStore,
-        error: notifStore,
+        notif: notifStore,
+        auth: authStore,
     }
 })
