@@ -20,7 +20,7 @@ async function updateHero(_id, publicName, realName, powers) {
     return await putRequest(`/heroes/update`, data, "updateHero");
 }
 
-async function getHeroById(_id, org_secret) {
+async function getHeroById(_id) {
     return await getRequest(`/heroes/getbyid/${_id}`, "getHeroById");
 }
 

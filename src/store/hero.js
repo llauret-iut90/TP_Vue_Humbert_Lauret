@@ -2,29 +2,23 @@ import * as heroService from '@/service/hero.service';
 
 export default {
     state: () => ({
-        heroesAliases: [],
-        currentHero: {},
-    }),
-    getters: {
-        heroesAliases: state => state.heroesAliases,
-    },
-    mutations: {
+        heroesAliases: [], currentHero: {}
+    }), getters: {
+        heroesAliases: state => state.heroesAliases, currentHero: state => state.currentHero,
+    }, mutations: {
         setHeroesAliases(state, heroes) {
             state.heroesAliases = heroes;
-        },
-        setCurrentHero(state, hero) {
+        }, setCurrentHero(state, hero) {
             state.currentHero = hero;
         }
-    },
-    actions: {
+    }, actions: {
         async fetchHeroes({commit}) {
             const res = await heroService.getAliases();
             if (res.error === 0) {
                 commit('setHeroesAliases', res.data);
             }
             return res;
-        },
-        async fetchHeroById({commit, rootState}, _id) {
+        }, async fetchHeroById({commit, rootState}, _id) {
             //rootState c'est pour accéder aux autres states d'autres store
             const orgSecret = rootState.org.orgSecret;
             console.log("orgSecret", orgSecret)
@@ -33,16 +27,14 @@ export default {
                 commit('setCurrentHero', res.data[0]);
             }
             return res;
-        },
-        async createHero({dispatch}, {publicName, realName, powers}) {
+        }, async createHero({dispatch}, {publicName, realName, powers}) {
             const res = await heroService.createHero(publicName, realName, powers);
             if (res.error === 0) {
                 console.log("createHero", res)
                 dispatch('fetchHeroes');
             }
             return res;
-        },
-        async editHero({dispatch, state, rootState}, {_id, publicName, realName, powers}) {
+        }, async editHero({dispatch, state, rootState}, {_id, publicName, realName, powers}) {
             const orgSecret = rootState.org.orgSecret;
             const res = await heroService.updateHero(_id, publicName, realName, powers, orgSecret);
             console.log("editHero", res)
