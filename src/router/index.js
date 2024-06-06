@@ -5,7 +5,10 @@ import store from '@/store'
 Vue.use(VueRouter)
 
 const routes = [{
+
     path: '/auth', name: 'orgauth', component: () => import('../views/OrgAuthView.vue'), meta: {levelAuth: 0}
+}, {
+    path: '/', name: 'home', component: () => import('../views/HomeView.vue'), meta: {levelAuth: 0}
 }, {
     path: '/orgList', name: 'orgList', component: () => import('../views/OrgListView.vue'), meta: {levelAuth: 0}
 }, {
