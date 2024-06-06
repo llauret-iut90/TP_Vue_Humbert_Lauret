@@ -34,8 +34,7 @@ function checkAccess(to, from, next) {
         next();
     } else if (orgSecret === '') {
         next({name: 'orgauth'});
-    }
-    if (Object.keys(currentTeam).length === 0 && to.path === '/team') {
+    } else if (Object.keys(currentTeam).length === 0 && to.path === '/team') {
         console.log("VOUS NE PASSERAI PAS (si vous n'avez pas de team)")
         next({name: 'org'});
     } else {
