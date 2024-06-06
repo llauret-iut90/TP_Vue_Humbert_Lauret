@@ -1,0 +1,8 @@
+POST https://apidemo.iut-bm.univ-fcomte.fr/authapi/auth/signin
+content-type: application/json
+
+{
+  "login": "superdupond",
+  "password": "azer",
+  "hero": "super dupond"
+}

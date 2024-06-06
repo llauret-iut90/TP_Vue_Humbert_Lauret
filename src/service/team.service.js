@@ -13,7 +13,7 @@ async function addHeroes(idHeroes, idTeam) {
         idHeroes: [idHeroes], idTeam: idTeam
     }
     console.log("DATA de add heroes", data)
-    return await patchRequest(`teams/addheroes`, data, "addHeroes", {});
+    return await patchRequest(`teams/addheroes`, data, "addHeroes");
 }
 
 async function removeHeroes(idHeroes, idTeam) {
@@ -21,7 +21,7 @@ async function removeHeroes(idHeroes, idTeam) {
         idHeroes: [idHeroes], idTeam: idTeam
     }
     console.log("j'enlève un hero de l'équipe", data)
-    return await patchRequest(`teams/removeheroes`, data, "removeHeroes", {});
+    return await patchRequest(`teams/removeheroes`, data, "removeHeroes");
 }
 
 

@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+const store = require('../store/index.js')
+
 /* Explications :
 
 Un agent axios permet de faire des requête asynchrones à un serveur.
@@ -27,6 +29,14 @@ const axiosAgent = axios.create({
     baseURL: 'https://apidemo.iut-bm.univ-fcomte.fr/herocorp',
 });
 
+axiosAgent.interceptors.request.use(request => {
+    request.headers['org-secret'] = store.default.getters.orgSecret
+    return request
+}, error => {
+    console.log("ERROR while adding org-secret to request: " + JSON.stringify(error))
+    return Promise.reject(error)
+});
+
 function handleError(serviceName, err) {
     if (err.response) {
         // la requête a été reçue par le serveur mais celui-ci renvoie un status != 2XX, ce qui signifie
@@ -36,8 +46,7 @@ function handleError(serviceName, err) {
         // mais avec un champ data contenant le message d'erreur renvoyé par l'API
         return {
             data: {
-                error: 1,
-                data: err.response.data
+                error: 1, data: err.response.data
             }
         };
     } else if (err.request) {
@@ -47,8 +56,7 @@ function handleError(serviceName, err) {
         // mais avec un champ data contenant un message
         return {
             data: {
-                error: 1,
-                data: 'Le serveur est injoignable ou l\'URL demandée n\'existe pas'
+                error: 1, data: 'Le serveur est injoignable ou l\'URL demandée n\'existe pas'
             }
         };
     } else {
@@ -58,8 +66,7 @@ function handleError(serviceName, err) {
         // mais avec un champ data contenant un message
         return {
             data: {
-                error: 1,
-                data: 'Erreur inconnue'
+                error: 1, data: 'Erreur inconnue'
             }
         };
     }
@@ -76,11 +83,10 @@ renvoyées par l'API, même en cas d'erreur.
   cela correspond donc à route demandée, par ex /rpg/items/get
 - name est un "surnom" de l'uri, pour les message de debug
  */
-async function getRequest(uri, name, headers = {}) {
-    console.log("HEADER", headers)
+async function getRequest(uri, name) {
     let response = null
     try {
-        response = await axiosAgent.get(uri, {headers})
+        response = await axiosAgent.get(uri)
     } catch (err) {
         // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
         // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs et on met le résutlat dans response.
@@ -108,10 +114,10 @@ async function postRequest(uri, data, name) {
     return response.data;
 }
 
-async function patchRequest(uri, data, name, headers = {}) {
+async function patchRequest(uri, data, name) {
     let response = null
     try {
-        response = await axiosAgent.patch(uri, data, {headers})
+        response = await axiosAgent.patch(uri, data)
     } catch (err) {
         // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
         // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs
@@ -122,10 +128,10 @@ async function patchRequest(uri, data, name, headers = {}) {
     return response.data;
 }
 
-async function putRequest(uri, data, name, headers = {}) {
+async function putRequest(uri, data, name) {
     let response = null
     try {
-        response = await axiosAgent.put(uri, data, {headers})
+        response = await axiosAgent.put(uri, data)
     } catch (err) {
         // le catch se fait si le serveur répond avec une erreur type 4XX, 5XX, ou bien si le serveur est off
         // dans ce cas, on appelle la méthode pour traiter ces types d'erreurs
@@ -137,9 +143,6 @@ async function putRequest(uri, data, name, headers = {}) {
 }
 
 export {
-    getRequest,
-    postRequest,
-    patchRequest,
-    putRequest
+    getRequest, postRequest, patchRequest, putRequest
 }
 

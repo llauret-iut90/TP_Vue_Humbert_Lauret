@@ -11,30 +11,25 @@ async function createOrganization(name, secret) {
     return await postRequest("/orgs/create", data, "createOrganization");
 }
 
-async function addTeam(id_Team, org_secret) {
+async function addTeam(id_Team) {
     let data = {
         idTeam: id_Team
     }
     console.log("DATA", data)
-    console.log("ORG SECRET", org_secret)
-    return await patchRequest(`/orgs/addteam`, data, "addTeam", {"org-secret": org_secret});
+    return await patchRequest(`/orgs/addteam`, data, "addTeam");
 }
 
-async function removeTeam(id_Team, org_secret) {
+async function removeTeam(id_Team) {
     let data = {
         idTeam: id_Team
     }
-    return await patchRequest(`/orgs/removeteam/`, data, "removeTeam", {"org-secret": org_secret});
+    return await patchRequest(`/orgs/removeteam/`, data, "removeTeam");
 }
 
-async function getOrganizationById(_id, org_secret) {
-    return await getRequest(`/orgs/getbyid/${_id}`, "getOrganizationById", {"org-secret": org_secret});
+async function getOrganizationById(_id) {
+    return await getRequest(`/orgs/getbyid/${_id}`, "getOrganizationById");
 }
 
 export {
-    getOrganizations,
-    createOrganization,
-    addTeam,
-    removeTeam,
-    getOrganizationById
+    getOrganizations, createOrganization, addTeam, removeTeam, getOrganizationById
 }
