@@ -21,6 +21,8 @@ const routes = [{
     path: '*', name: 'error404', component: () => import('../views/ErrorView.vue'), meta: {levelAuth: 0}
 }, {
     path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: {levelAuth: 0}
+}, {
+    path: '/register', name: 'register', component: () => import('../views/RegisterView.vue'), meta: {levelAuth: 0}
 }]
 
 const router = new VueRouter({

@@ -13,6 +13,8 @@
 
       <v-spacer></v-spacer>
       <div>
+        <v-btn to="/register" color="purple">Register</v-btn>
+        &nbsp;
         <v-btn to="/login" color="green">Login</v-btn>
         &nbsp;
         <v-btn to="/auth">Org secret</v-btn>
