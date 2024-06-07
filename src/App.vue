@@ -22,7 +22,9 @@
       <div>
         <v-btn to="/register" color="purple">Register</v-btn>
         &nbsp;
-        <v-btn to="/login" color="green">Login</v-btn>
+        <v-btn v-if="!isLoggedIn" to="/login" color="green"> Login</v-btn>
+        <v-btn v-if="isLoggedIn" color="red" @click="myTimeHasCome"> Logout</v-btn>
+
         &nbsp;
         <v-btn to="/auth">Org secret</v-btn>
       </div>
@@ -56,7 +58,7 @@
 
 <script>
 import AppSnackbar from "@/components/snackbar.vue";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'App',
@@ -74,6 +76,14 @@ export default {
     }
   }, computed: {
     ...mapGetters(['isLoggedIn'])
+  }, methods: {
+    ...mapActions(['logout']),
+    myTimeHasCome() {
+      this.logout().then(() => {
+        this.$router.push('/').catch(() => {
+        });
+      });
+    }
   }
 };
 </script>
