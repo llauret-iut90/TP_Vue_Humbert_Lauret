@@ -64,7 +64,5 @@ async function loginService(user) {
 }
 
 export default {
-    authHeader,
-    loginService,
-    refreshService,
+    authHeader, loginService, refreshService,
 }

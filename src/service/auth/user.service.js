@@ -19,7 +19,5 @@ async function registerUser(data) {
 }
 
 export default {
-    getUser,
-    getUsers,
-    registerUser,
+    getUser, getUsers, registerUser,
 }

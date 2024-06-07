@@ -13,6 +13,13 @@
 
       <v-spacer></v-spacer>
       <div>
+        <v-btn to="/hero-info" :color="isLoggedIn ? 'blue' : 'grey'">
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
+        &nbsp;
+      </div>
+      &nbsp;
+      <div>
         <v-btn to="/register" color="purple">Register</v-btn>
         &nbsp;
         <v-btn to="/login" color="green">Login</v-btn>
@@ -49,6 +56,7 @@
 
 <script>
 import AppSnackbar from "@/components/snackbar.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'App',
@@ -64,6 +72,8 @@ export default {
         {title: 'Current team', icon: 'mdi-account-group', to: '/team'},
       ]
     }
+  }, computed: {
+    ...mapGetters(['isLoggedIn'])
   }
 };
 </script>

@@ -10,41 +10,38 @@ localStorage.removeItem('userdata');
 const userdata = JSON.parse(localStorage.getItem('userdata'));
 // by default, we consider that an existing userdata item means that user is logged
 // BUT his jwt token can be expired
-const initialState = userdata
-    ? {login: true, user: userdata}
-    : {login: false, user: null};
+const initialState = userdata ? {login: true, user: userdata} : {login: false, user: null};
 
 export default {
     state: () => ({
         authState: initialState,
-    }),
-    getters: {
+    }), getters: {
         isLoggedIn(state) {
             return state.authState.login
+        }, currentUser(state) {
+            return state.authState.user ? state.authState.user.name : null
+        }, xsrfToken(state) {
+            return state.authState.user ? state.authState.user.xsrfToken : null
         }
-    },
-    mutations: {
+
+    }, mutations: {
         loginSuccess(state, user) {
             state.authState.login = true;
             state.authState.user = user;
             localStorage.setItem('userdata', JSON.stringify(user));
-        },
-        loginFailure(state) {
+        }, loginFailure(state) {
             state.authState.login = false;
             state.authState.user = null;
-        },
-        logout(state) {
+        }, logout(state) {
             state.authState.login = false;
             state.authState.user = null;
             localStorage.removeItem('userdata');
-        },
-        refresh(state, data) {
+        }, refresh(state, data) {
             state.authState.user.refreshToken = data.refreshToken;
             // replace all the content of the storage
             localStorage.setItem('userdata', JSON.stringify(state.authState.user));
         }
-    },
-    actions: {
+    }, actions: {
         async login({commit}, user) {
             try {
                 let response = await AuthService.loginService(user);
@@ -61,8 +58,7 @@ export default {
                 commit('loginFailure');
                 return err.response; // pass the whole object from server (err+data)
             }
-        },
-        async logout({commit}) {
+        }, async logout({commit}) {
             commit('logout');
         },
     }

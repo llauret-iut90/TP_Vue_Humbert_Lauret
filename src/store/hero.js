@@ -42,6 +42,14 @@ export default {
                 dispatch('fetchHeroById', state.currentHero._id);
             }
             return res;
+        }, async authEditHero({dispatch, state, rootState}, {_id, publicName, realName, powers}) {
+            const orgSecret = rootState.org.orgSecret;
+            const res = await heroService.authUpdateHero(_id, publicName, realName, powers, orgSecret);
+            console.log("authEditHero", res)
+            if (res.error === 0) {
+                dispatch('fetchHeroById', state.currentHero._id);
+            }
+            return res;
         }
     },
 }

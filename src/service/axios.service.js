@@ -31,6 +31,7 @@ const axiosAgent = axios.create({
 
 axiosAgent.interceptors.request.use(request => {
     request.headers['org-secret'] = store.default.getters.orgSecret
+    request.headers['x-xsrf-token'] = store.default.getters.xsrfToken
     return request
 }, error => {
     console.log("ERROR while adding org-secret to request: " + JSON.stringify(error))

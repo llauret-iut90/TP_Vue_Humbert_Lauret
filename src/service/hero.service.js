@@ -20,10 +20,17 @@ async function updateHero(_id, publicName, realName, powers) {
     return await putRequest(`/heroes/update`, data, "updateHero");
 }
 
+async function authUpdateHero(_id, publicName, realName, powers) {
+    let data = {
+        _id: _id, publicName: publicName, realName: realName, powers: powers,
+    }
+    return await putRequest(`/heroes/authupdate`, data, "authUpdateHero");
+}
+
 async function getHeroById(_id) {
     return await getRequest(`/heroes/getbyid/${_id}`, "getHeroById");
 }
 
 export {
-    getAliases, createHero, updateHero, getHeroById
+    getAliases, createHero, updateHero, getHeroById, authUpdateHero
 }

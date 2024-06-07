@@ -1,16 +1,23 @@
-PUT https://apidemo.iut-bm.univ-fcomte.fr/herocorp/heroes/update
+PUT https://apidemo.iut-bm.univ-fcomte.fr/herocorp/heroes/authupdate
 content-type: application/json
-org-secret: 0000
+x-xsrf-token: bf9324a2-3a49-473d-a311-ad8ca259253b
 
 {
-  "_id": "6658d9a9069cfbf448c0ae74",
-  "publicName": "pp",
-  "realName": "pp",
+  "_id": "614ddafcfda4c31dc9299352",
+  "publicName": "super dupond",
+  "realName": "jean dupondszszs",
   "powers": [
     {
-      "name": "pp",
-      "type": "pp",
-      "level": "1"
+      "name": "super biscottos",
+      "type": 2,
+      "level": 77,
+      "_id": "614ddafcfda4c31dc9299353"
+    },
+    {
+      "name": "test ajout",
+      "type": 1,
+      "level": 1,
+      "_id": "665c8207069cfbf448c0d00b"
     }
   ]
 }

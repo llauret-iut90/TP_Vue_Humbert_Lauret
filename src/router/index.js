@@ -23,6 +23,8 @@ const routes = [{
     path: '/login', name: 'login', component: () => import('../views/LoginView.vue'), meta: {levelAuth: 0}
 }, {
     path: '/register', name: 'register', component: () => import('../views/RegisterView.vue'), meta: {levelAuth: 0}
+}, {
+    path: '/hero-info', name: 'hero-info', component: () => import('../views/HeroInfoView.vue'), meta: {levelAuth: 1}
 }]
 
 const router = new VueRouter({
@@ -32,8 +34,16 @@ const router = new VueRouter({
 function checkAccess(to, from, next) {
     let orgSecret = store.getters.orgSecret;
     let currentTeam = store.getters.currentTeam;
+    let isLoggedIn = store.getters.isLoggedIn;
 
-    if (to.meta.levelAuth === 0) {
+    if (to.path === '/hero-info') {
+        if (!isLoggedIn) {
+            console.log("VOUS NE PASSERAI PAS (si vous n'êtes pas connecté)")
+            next({name: 'login'});
+        } else {
+            next();
+        }
+    } else if (to.meta.levelAuth === 0) {
         console.log(orgSecret)
         next();
     } else if (orgSecret === '') {

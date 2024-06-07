@@ -112,7 +112,7 @@ export default {
       this.$refs.form.reset();
     },
     toHeroInfo() {
-      this.$router.push('/hero-info')
+      this.$router.push('/hero-info').catch(() => {})
     }
   },
 };
