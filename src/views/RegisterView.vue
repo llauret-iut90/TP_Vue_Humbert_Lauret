@@ -186,7 +186,6 @@ export default {
     },
     reset() {
       this.valid = false;
-      this.registerError = null;
       this.$refs.form.reset();
     },
     toHeroInfo() {
