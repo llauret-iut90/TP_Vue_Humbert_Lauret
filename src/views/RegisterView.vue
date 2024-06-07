@@ -173,19 +173,20 @@ export default {
             if (res.error === 0) {
               this.toHeroInfo()
             } else {
-              this.$router.push('/login')
+              await this.$router.push('/login')
             }
           } else {
-            this.$router.push('/login')
+            await this.$router.push('/login')
           }
         } else {
-          this.pushNotifMessage('Cannot create a new user')
+          this.pushNotifMessage('Name does not exist or is already taken')
           this.reset()
         }
       }
     },
     reset() {
       this.valid = false;
+      this.registerError = null;
       this.$refs.form.reset();
     },
     toHeroInfo() {
@@ -201,6 +202,9 @@ export default {
     resetRecaptcha() {
       this.$refs.recaptcha.reset() // Direct call reset method
     },
-  }
+  }, async mounted() {
+    console.log('RegisterView mounted')
+    this.$refs.recaptcha.reset()
+  },
 };
 </script>

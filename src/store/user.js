@@ -26,6 +26,8 @@ export default {
             }
         }, async register({commit}, data) {
             console.log('register a new user');
+            console.log('data: ')
+            console.log(data)
             let response = null;
             try {
                 response = await UserService.registerUser(data);
