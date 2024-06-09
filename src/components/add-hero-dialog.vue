@@ -11,9 +11,9 @@
           <v-text-field label="Real Name" v-model="realName" :rules="[rules.required]"></v-text-field>
           <div v-for="(power, index) in powers" :key="index">
             <v-text-field label="Power Name" v-model="power.name" :rules="[rules.required]"></v-text-field>
-            <v-text-field label="Power Type" v-model="power.type" type="number" :min="0"
+            <v-text-field label="Power Type" v-model="power.type" type="number" :min="0" :max="7"
                           :rules="[rules.required]"></v-text-field>
-            <v-text-field label="Power Level" v-model="power.level" type="number" :min="0"
+            <v-text-field label="Power Level" v-model="power.level" type="number" :min="0" :max="100"
                           :rules="[rules.required]"></v-text-field>
           </div>
           <v-btn color="blue darken-1" @click="addPower">Add Power</v-btn>

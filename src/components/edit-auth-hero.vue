@@ -23,6 +23,8 @@
                       prepend-icon="mdi-account"
                       label="Power Type"
                       v-model="power.type"
+                      :min="0"
+                      :max="7"
                       type="number"
                       required
                   ></v-text-field>
@@ -30,6 +32,8 @@
                       prepend-icon="mdi-account"
                       label="Power Level"
                       v-model="power.level"
+                      :min="0"
+                      :max="100"
                       type="number"
                       required
                   ></v-text-field>
