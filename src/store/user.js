@@ -19,6 +19,8 @@ export default {
                 console.log("answer for getuser" + JSON.stringify(response))
                 if (response.error === 0) {
                     commit('updateUser', response.data);
+                    console.log('response.data: ');
+                    console.log(response.data);
                 }
             } catch (err) {
                 console.log("ABNORMAL CASE: ERROR while getting an user");

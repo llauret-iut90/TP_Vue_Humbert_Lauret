@@ -23,7 +23,6 @@ export default {
         }, xsrfToken(state) {
             return state.authState.user ? state.authState.user.xsrfToken : null
         }
-
     }, mutations: {
         loginSuccess(state, user) {
             state.authState.login = true;
@@ -48,6 +47,7 @@ export default {
                 if (response.error === 0) {
                     //console.log("SUCCESS login, user = "+JSON.stringify(response.data));
                     commit('loginSuccess', response.data);
+                    console.log('RESPONSE DATA DE AUTH JS', response.data);
                     console.log(localStorage)
                 } else {
                     commit('loginFailure');
