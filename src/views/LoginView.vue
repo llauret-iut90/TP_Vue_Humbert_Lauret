@@ -102,7 +102,7 @@ export default {
         if (response.error === 0) {
           this.toHeroInfo()
         } else {
-          this.pushNotifMessage('Invalid login')
+          this.pushNotifMessage('Error: ' + response.data.data)
           this.reset()
         }
       }

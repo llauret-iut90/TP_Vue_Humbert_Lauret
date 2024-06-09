@@ -183,7 +183,7 @@ export default {
             })
           }
         } else {
-          this.pushNotifMessage('Name does not exist or is already taken')
+          this.pushNotifMessage('Error: ' + response.data.data)
           this.reset()
         }
       }
