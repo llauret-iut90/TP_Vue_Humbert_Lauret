@@ -89,7 +89,7 @@
 
         <v-btn
             color="warning"
-            @click="toHeroInfo"
+            @click="toHome"
         >
           Cancel
         </v-btn>
@@ -193,6 +193,11 @@ export default {
       this.$refs.form.reset();
     },
     toHeroInfo() {
+      this.$router.push('/hero-info').catch(() => {
+        console.log('Error while routing')
+      });
+    },
+    toHome() {
       this.$router.push('/').catch(() => {
         console.log('Error while routing')
       });
