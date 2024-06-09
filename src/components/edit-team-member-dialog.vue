@@ -19,15 +19,14 @@
                       v-model="power.name"
                       required
                   ></v-text-field>
-                  <v-text-field
-                      prepend-icon="mdi-account"
-                      label="Power Type"
+                  <v-select
+                      :items="powerTypes"
+                      item-text="text"
+                      item-value="value"
                       v-model="power.type"
-                      :min="0"
-                      :max="7"
-                      type="number"
+                      label="Power Type"
                       required
-                  ></v-text-field>
+                  ></v-select>
                   <v-text-field
                       prepend-icon="mdi-account"
                       label="Power Level"
@@ -69,12 +68,32 @@ export default {
   components: {AlertDialog},
   data() {
     return {
+      powerTypes: [
+        {text: 'Strengh', value: 1},
+        {text: 'Speed', value: 2},
+        {text: 'Stamina', value: 3},
+        {text: 'Dark Magic', value: 4},
+        {text: 'Frightening', value: 5},
+        {text: 'THE SPY', value: 6},
+        {text: 'Dumb af', value: 7},
+      ],
       dialog: false,
       id: '',
       publicName: '',
       realName: '',
       powers: [{name: '', type: 0, level: 0}, {name: '', type: 0, level: 0}]
     };
+  },
+  watch: {
+    powers: {
+      handler(powers) {
+        powers.forEach(power => {
+          if (power.level < 0) power.level = 0;
+          if (power.level > 100) power.level = 100;
+        });
+      },
+      deep: true
+    }
   },
   methods: {
     show(member) {

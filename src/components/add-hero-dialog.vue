@@ -11,8 +11,14 @@
           <v-text-field label="Real Name" v-model="realName" :rules="[rules.required]"></v-text-field>
           <div v-for="(power, index) in powers" :key="index">
             <v-text-field label="Power Name" v-model="power.name" :rules="[rules.required]"></v-text-field>
-            <v-text-field label="Power Type" v-model="power.type" type="number" :min="0" :max="7"
-                          :rules="[rules.required]"></v-text-field>
+            <v-select
+                :items="powerTypes"
+                item-text="text"
+                item-value="value"
+                v-model="power.type"
+                label="Power Type"
+                :rules="[rules.required]"
+            ></v-select>
             <v-text-field label="Power Level" v-model="power.level" type="number" :min="0" :max="100"
                           :rules="[rules.required]"></v-text-field>
           </div>
@@ -36,6 +42,15 @@ export default {
   name: 'AddHeroDialog',
   data() {
     return {
+      powerTypes: [
+        {text: 'Strengh', value: 1},
+        {text: 'Speed', value: 2},
+        {text: 'Stamina', value: 3},
+        {text: 'Dark Magic', value: 4},
+        {text: 'Frightening', value: 5},
+        {text: 'THE SPY', value: 6},
+        {text: 'Dumb af', value: 7},
+      ],
       dialog: false,
       publicName: '',
       realName: '',
@@ -48,6 +63,17 @@ export default {
   },
   computed: {
     ...mapGetters(['heroesAliases']),
+  },
+  watch: {
+    powers: {
+      handler(powers) {
+        powers.forEach(power => {
+          if (power.level < 0) power.level = 0;
+          if (power.level > 100) power.level = 100;
+        });
+      },
+      deep: true
+    }
   },
   methods: {
     show() {
