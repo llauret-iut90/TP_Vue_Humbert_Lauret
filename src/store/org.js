@@ -29,6 +29,7 @@ export default {
             return res;
         }, async setOrgSecret({commit}, secret) {
             commit('setOrgSecret', secret);
+            commit('setCurrentOrg', {});
             console.log("je set le secret", secret)
         }, async fetchOrgById({commit, state}, _id) {
             const res = await orgService.getOrganizationById(_id, state.orgSecret);
