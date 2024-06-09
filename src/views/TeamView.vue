@@ -165,8 +165,13 @@ export default {
       const hero = this.heroesAliases.find(h => h.publicName === selectedHero);
       console.log('Hero found', hero);
       if (hero) {
-        await this.addHeroToTeam(hero._id);
+        const res = await this.addHeroToTeam(hero._id);
         await this.fetchTeamMembers();
+        if (res.error === 0) {
+          this.pushNotifMessage('Hero added to team');
+        } else {
+          this.pushNotifMessage('Error:' + res.data.data);
+        }
       }
     },
     async editMember(member) {
