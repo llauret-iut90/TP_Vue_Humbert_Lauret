@@ -17,6 +17,7 @@
                           :rules="[rules.required]"></v-text-field>
           </div>
           <v-btn color="blue darken-1" @click="addPower">Add Power</v-btn>
+          <v-btn color="red darken-1" @click="deletePower" v-if="powers.length > 2">Delete recent power</v-btn>
         </v-form>
       </v-card-text>
       <v-card-actions>
@@ -54,6 +55,11 @@ export default {
     },
     addPower() {
       this.powers.push({name: '', type: 0, level: 0});
+    },
+    deletePower() {
+      if (this.powers.length > 2) {
+        this.powers.pop();
+      }
     },
     emitHeroData() {
       if (this.$refs.form.validate()) {
