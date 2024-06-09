@@ -32,7 +32,9 @@ export default {
     changeSecret() {
       this.setOrgSecret(this.password);
       this.pushNotifMessage('Password set');
-      this.$router.push('/orgList');
+      this.$router.push('/orgList').catch(() => {
+        console.log('Error while routing')
+      });
     },
   },
 };

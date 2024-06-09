@@ -173,10 +173,14 @@ export default {
             if (res.error === 0) {
               this.toHeroInfo()
             } else {
-              await this.$router.push('/login')
+              await this.$router.push('/login').catch(() => {
+                console.log('Error while routing')
+              })
             }
           } else {
-            await this.$router.push('/login')
+            await this.$router.push('/login').catch(() => {
+              console.log('Error while routing')
+            })
           }
         } else {
           this.pushNotifMessage('Name does not exist or is already taken')
@@ -189,7 +193,9 @@ export default {
       this.$refs.form.reset();
     },
     toHeroInfo() {
-      this.$router.push('/hero-info')
+      this.$router.push('/').catch(() => {
+        console.log('Error while routing')
+      });
     },
     onCaptchaVerify: function (response) {
       console.log('Verify: ' + response);

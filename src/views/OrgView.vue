@@ -28,7 +28,8 @@
     </v-card>
 
     <alert-dialog title="Error" close-btn-text="Return to org list"
-                  :after-closed-func="() => {this.$router.push('/orgList')}" ref="errorDialog">
+                  :after-closed-func="() => {this.$router.push('/orgList').catch(() => { console.log('error while routing') })}"
+                  ref="errorDialog">
       Nothing to show
     </alert-dialog>
 
@@ -65,7 +66,8 @@ export default {
       console.log('teamList', this.teamList)
       console.log('changeCurrentTeam', teamId);
       await this.setCurrentTeamFromId(teamId);
-      await this.$router.push('/team').catch(() => {});
+      await this.$router.push('/team').catch(() => {
+      });
     },
     async deleteTeam() {
       console.log('delete team with id', this.selectedTeamId);
