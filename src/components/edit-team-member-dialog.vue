@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-title>
-          Add Hero
+          Edit Hero
         </v-card-title>
         <v-card-text>
           <v-text-field label="Public Name" v-model="publicName" required></v-text-field>
